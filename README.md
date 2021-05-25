@@ -1,25 +1,47 @@
 # GeneGrouper
 
 
-GeneGrouper is a command-line tool that finds gene clusters and bins them into representative gene cluster groups.
+GeneGrouper is a command-line tool that finds gene clusters and bins them into representative gene cluster groups. GeneGrouper aims to provide a pan-genomic characterization for gene clusters of interest.
 
 
-**Quick Highlights**
+**Quick Overview**
 
-1. Requires only a fasta file for your gene of interest and a set of GenBank File Format (.gbff) RefSeq genomes.
+1. Requires a fasta file of your gene of interest and a set of GenBank File Format (.gbff) RefSeq genomes.
 
-2. Define the approximate length of the gene cluster by entering the distance upstream/downstream from the gene of interest and search.
+2. Define the approximate length of the gene cluster by entering the distance upstream/downstream from the gene of interest.
 
-3. Visualize your gene clusters and explore a rich dataset of sequences, orthology assignments, and gene clusters.
+	GeneGrouper will search, cluster, and bin all gene clusters!
+
+3. Visualize your gene cluster bins and explore a rich dataset of sequences, orthology assignments, and gene clusters.
+
+
+**Example Application and Output**
+
+GeneGrouper was used to search 435 genomes from 6 different taxa for the 23-gene Pdu biosynthetic gene cluster to understand its distribution and gene content variation.
+
+The translated PduA gene was used as the seed gene and a genomic region 2,000 bp and 18,000 bp upstream was chosen. 
+
+GeneGrouper shows gene clusters found, their bin representative, and the similarity of other gene clusters in that bin.
+
+<img src="docs/multiplot_repregions_1.png" alt="GeneGrouper main output" width=600>
+<br><br>
+The percentage of genomes with at least one gene cluster in a gene cluster bin is also shown, this time by taxa.
+
+<img src="docs/region_taxa_breakdown_1.png" alt="GeneGrouper taxa breakdown" width=600>
+<br><br>
+The number genomes searched (red) and those with at least one gene cluster found (blue) is shown, also by taxa.
+
+<img src="docs/taxa_found.png" alt="GeneGrouper taxa searched" width=600>
+<br><br>
 
 
 **Input size and speed**
 
-Using 4 cores and 2 GB of RAM:
+Using 4 cores and 2 GB of RAM, GeneGrouper was run on 1130 genomes and...
 
-1. GeneGrouper takes 8 minutes to build a genome database (only needs to be done once).
+1. Took 8 minutes to build a genome database (only needs to be done once).
 
-2. Takes less than 4 minutes to search, cluster, bin, and visualize \~3000 genomic regions.
+2. Took less than 4 minutes to search, cluster, bin, and visualize \~3000 gene clusters per search.
 
 
 
@@ -70,7 +92,6 @@ conda install -c bioconda mcl
 
 conda install -c bioconda blast
 
-
 ```
 
 
@@ -95,20 +116,17 @@ q()
 ```
 
 
-2. Down GeneGrouper
+2. Download GeneGrouper
 
 ```
 pip install GeneGrouper
-
 ```
 
  **Dependencies:**
 
 ```
 conda list
-```
 
-```
 # Name                    Version                   Build  Channel
 _libgcc_mutex             0.1                 conda_forge    conda-forge
 _openmp_mutex             4.5                       1_gnu    conda-forge
