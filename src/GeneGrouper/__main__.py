@@ -131,8 +131,7 @@ def main(args = None):
 	'''
 	if args is None:
 		args = sys.argv[1:]
-	#https://stackoverflow.com/questions/22850332/getting-the-remaining-arguments-in-argparse
-	#https://stackoverflow.com/questions/51122046/python-3-argparse-call-a-function
+
 	# create parser
 	parser = argparse.ArgumentParser(prog = 'GeneToRegions')
 

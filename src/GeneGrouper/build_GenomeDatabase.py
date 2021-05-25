@@ -228,6 +228,8 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 
 	conn.close()
 
+	del conn
+
 ## ---- END OF SCRIPT ---- ##
 
 

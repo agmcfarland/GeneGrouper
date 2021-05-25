@@ -199,15 +199,15 @@ def MakeVisualizations(
 	if UserInput_visualization_type == 'main':
 		print('Arranging clusters')
 		plot_RepresentativeRegions(df_sr=df_sr,df_cr=df_cr)
-		os.system('rscript {}/visualize_main_region.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
-		# check_call(['rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
-		# check_call(['rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
+		os.system('Rscript {}/visualize_main_region.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
+		# check_call(['Rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
+		# check_call(['Rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
 		return
 
 
 	if UserInput_visualization_type == 'region_cluster':
 		get_UniqueClustersWithinCluster(df_cr=df_cr, df_sr=df_sr, cluster_label_id=UserInput_cluster_label_id)
-		os.system('rscript {}/visualize_cluster.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
+		os.system('Rscript {}/visualize_cluster.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
 		return
 
 #------- endscript ------#

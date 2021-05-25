@@ -28,8 +28,6 @@ def blast_Seed(assembly_id, query_file, blast_db_path, blast_hits_path):
 	full_hits_path = pjoin(blast_hits_path, assembly_id+'.csv')
 	os.system('blastp -query {} -db {} -max_target_seqs 100 -evalue 1e-6 -outfmt "10 qseqid sseqid mismatch positive gaps ppos pident qcovs evalue bitscore qframe sframe sstart send slen qstart qend qlen" -num_threads 1 -out {}'.format(query_file, full_db_path, full_hits_path))
 
-
-
 ## write seed region gene content to file ##
 
 def test_RegionOverlap(x1,x2,y1,y2):
@@ -61,17 +59,20 @@ def extract_SeedRegions(assembly_id, upstream_search_length, downstream_search_l
 # pd.set_option('display.max_columns', None)
 # upstream_search_length, downstream_search_length, identity_cutoff, coverage_cutoff, hits_cutoff = 10000,10000,20,80, 1
 
-# UserInput_main_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1'
-# UserInput_output_dir_name = pjoin(UserInput_main_dir,'psts_ecoli')
+# # UserInput_main_dir = '/projects/b1042/HartmannLab/alex/GeneGrouper_test/testbed/dataset1/test1'#'/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1'
+# UserInput_main_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset3/test1'
+# UserInput_output_dir_name = pjoin(UserInput_main_dir,'pdua')
 # os.chdir(UserInput_main_dir)
 # conn = sql.connect(pjoin(UserInput_main_dir,'genomes.db')) # genome database holds all base info
 # conn2 = sql.connect(pjoin(UserInput_output_dir_name,'seed_results.db')) # seed_results database holds all seed search specific info. 
 
 
-# # assembly_id = 'GCF_009800085'  #GCF_009800085_02009     dbscan_label 3     ,global_strand -1 has more
-# # assembly_id = 'GCF_000583895' #GCF_000583895_02788     dbscan_label 13    ,global_strand 1  has fewer
+# assembly_id = 'GCF_009800085'  #GCF_009800085_02009     dbscan_label 3     ,global_strand -1 has more
+# assembly_id = 'GCF_000583895' #GCF_000583895_02788     dbscan_label 13    ,global_strand 1  has fewer
 
 # assembly_id = 'GCF_001077835'
+
+# assembly_id = 'GCF_000251025'
 
 #--------- Troubleshooting --------#
 
@@ -87,26 +88,29 @@ def extract_SeedRegions(assembly_id, upstream_search_length, downstream_search_l
 		return(pd.DataFrame())
 		pass
 
+
 	## read in whole genome info
-	df_g = pd.read_sql_query("SELECT contig_id, locus_tag, cds_start, cds_end, strand, pseudo_check from gb_features WHERE assembly_id = '{}' ".format(assembly_id), conn)
+	df_g = pd.read_sql_query("SELECT contig_id, locus_tag, cds_start, cds_end, strand, pseudo_check from gb_features WHERE assembly_id = '{}' ".format(assembly_id), sql.connect('genomes.db'))
+
 
 	## merge genome level data with blast hit results. sort by identity and evalue so that best hits are at the top of the table
 	df_hits = df_g.merge(df_hits[['sseqid','pident','qcovs','evalue']],left_on='locus_tag',right_on='sseqid',how='inner')
+
+
 	# if there are multiple hits that are identical, keep the one with the highest evalue
 	df_hits = df_hits.groupby('locus_tag').first().reset_index()
+
 	df_hits = df_hits.sort_values(['pident','evalue'],ascending=[False,False])
+
 	# keep only n total hits (default is all hits)
 	if type(hits_cutoff) == int:
 		df_hits = df_hits.iloc[:hits_cutoff, :]
-
 
 
 	## define upstream and downstream search lengths. The distance inputs for upstream/start and downstream/end are switched when the seed gene is in the -1 frame
 	## The usl and dsl are not strand specific now. They are relative to the genomes' upstream and downstream positions
 	df_hits['usl'] = np.where(df_hits['strand']==1, df_hits['cds_start'] - upstream_search_length, df_hits['cds_start'] - downstream_search_length)
 	df_hits['dsl'] = np.where(df_hits['strand']==1, df_hits['cds_end'] + downstream_search_length, df_hits['cds_end'] + upstream_search_length)
-
-	# df_hits = df_hits[df_hits['locus_tag'].isin(['GCF_000583895_02788','GCF_009800085_02009'])]	
 
 	## for each contig, test for overlapping region ranges. Keep the region with the best hit.
 	## append subsets to new df called df_hits_parsed
@@ -167,14 +171,12 @@ def extract_SeedRegions(assembly_id, upstream_search_length, downstream_search_l
 		df_r['region_id'] = h[1][0]
 		df_rkeep = df_rkeep.append(df_r,ignore_index=True)
 
-
 	## add blast data to the extracted regions, remove unneeded columns, and return the dataframe
 	df_rkeep['assembly_id'] = assembly_id
 	df_rkeep = df_rkeep[['region_id','assembly_id','contig_id','locus_tag','strand','pseudo_check']]
 	df_rkeep = df_rkeep.merge(df_hits_parsed[['sseqid','pident','qcovs','evalue']], left_on='region_id',right_on='sseqid')
 	df_rkeep = df_rkeep.drop(columns='sseqid')
 
-# print(df_rkeep)
 
 	return(df_rkeep)
 
@@ -213,6 +215,28 @@ def BuildQueryFiles(
 	):
 	'''
 	'''
+
+#--------- Troubleshooting --------#
+# pd.set_option('display.max_columns', None)
+# mp.set_start_method("fork")
+
+# # UserInput_main_dir = '/projects/b1042/HartmannLab/alex/GeneGrouper_test/testbed/dataset1/test1'#'/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1'
+# UserInput_main_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset3/test1'
+# UserInput_output_dir_name = pjoin(UserInput_main_dir,'pdua')
+# UserInput_genome_inputs_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset3/core'
+# UserInput_seed_filename_path = pjoin(UserInput_genome_inputs_dir,'pdua.txt')
+# UserInput_upstream_search_length = 2000
+# UserInput_downstream_search_length = 18000
+# UserInput_identity_threshold = 15
+# UserInput_coverage_threshold = 70
+# UserInput_hitcount_threshold = 5
+# UserInput_processes = 8
+# os.chdir(UserInput_main_dir)
+# # conn = sql.connect(pjoin(UserInput_main_dir,'genomes.db')) # genome database holds all base info
+# # conn2 = sql.connect(pjoin(UserInput_output_dir_name,'seed_results.db')) # seed_results database holds all seed search specific info. 
+#--------- Troubleshooting --------#
+
+
 	make_OutputDirectory(new_directory=UserInput_main_dir)
 	change_ToWorkingDirectory(directory_name=UserInput_main_dir)
 	make_OutputDirectory(new_directory=UserInput_output_dir_name)

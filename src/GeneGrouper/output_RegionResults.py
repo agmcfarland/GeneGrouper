@@ -110,7 +110,7 @@ def OutputRegionResults(
 	df_cr = pd.read_sql_query("SELECT * from dbscan_label_representatives", conn)
 	df_or = pd.read_sql_query("SELECT * from select_mcl_results", conn)
 
-	# ---- Make full region info output file ---- #
+	# ----  Make comprehensive region & cluster data table ---- #
 
 	# merge dbscan labels with seed regions
 	df_cr = df_cr[['seed_region_id','dbscan_label','mean_dissimilarity','representative_relative_dissimilarity','label_representative','full_index_pos']]
@@ -138,12 +138,12 @@ def OutputRegionResults(
 	rep_list = df_cr[df_cr['full_index_pos']==df_cr['label_representative']]['seed_region_id'].tolist()
 	label_list = df_cr[df_cr['full_index_pos']==df_cr['label_representative']]['dbscan_label'].tolist()
 	df_jac = subset_SimilarityMatrix(rep_list=rep_list)
-	# df_jac = sort_SubsetSimilarityMatrix(df_jac=df_jac, label_list=label_list)
 
-	#
+	# make dendrogram with column names as labels
 	dend = shc.dendrogram(shc.linkage(y= df_jac, method='ward',
 		optimal_ordering = True), labels = df_jac.columns)
 
+	# make the dendrogram to a dataframe
 	rep_label_map = pd.DataFrame({'representative_id':rep_list,'dbscan_label':label_list})
 	df_reorder = pd.DataFrame({
 		'representative_id': dend['ivl'],
@@ -151,9 +151,8 @@ def OutputRegionResults(
 	df_reorder = df_reorder.merge(rep_label_map, on = 'representative_id')
 	df_sr = df_sr.merge(df_reorder.drop(columns='representative_id'), on='dbscan_label')
 
-	# df_jac = sort_SubsetSimilarityMatrix(df_jac=df_jac, label_list=label_list)
-	# merge and save copy
-	# df_sr = df_sr.merge(df_jac.drop(columns='seed_region_id'), on = 'dbscan_label')
+
+	# ---- Write comprehensive region & cluster data table ---- #
 	df_sr.to_csv(pjoin('region_clusters','full_region.csv'),index=False)
 
 	# ---- Make metadata outputs ---- #

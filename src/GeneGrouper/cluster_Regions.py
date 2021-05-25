@@ -229,6 +229,7 @@ def ClusterRegions(
 	# reclustering procedure START
 	if UserInput_reclustering_iterations > 0:
 		for r in range(UserInput_reclustering_iterations):
+			
 			# check that -1 exist
 			if sum(value == -1 for value in final_cluster.values()) <= 1:
 				print('No more unclustered regions to cluster')

@@ -16,8 +16,10 @@ visualizations_dir <- args[2]
 setwd(results_dir)
 
 ## Troubleshooting ##
-#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/mexb/results') #debugging
-#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/mexb/visualizations' #debugging
+#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/mexb/results') #debugging mac
+#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/mexb/visualizations' #debugging mac
+#setwd('/projects/b1042/HartmannLab/alex/GeneGrouper_test/testbed/dataset1/test1/pdua/results') #debugging linux
+#visualizations_dir <- '/projects/b1042/HartmannLab/alex/GeneGrouper_test/testbed/dataset1/test1/pdua/visualizations' #debugging linux
 ## ## ## ## ## ## ## ##
 
 # dataframe with scaling parameters for each
