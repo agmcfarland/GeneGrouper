@@ -19,8 +19,8 @@ GeneGrouper is a command-line tool that finds gene clusters in a set of genomes 
 
 **Outputs**
 
-1. A database of the genomes to be searched needs to be built once
-2. Afterwards, each individual search for a gene of interest will return a new folder containing all gene clusters and their groupings
+1. A database of the genomes to be searched (this step is run only once. Afterwards you can run as many searches as you want!)
+2. For each individual search, a new folder will be outputted containing all gene clusters and their groupings
 
 **Visualizations and data**
 
@@ -117,6 +117,10 @@ region_cluster -vt region_cluster -clab 0
 
 Coming soon! Example dataset and tutorial!
 
+## Search dataset output descriptions
+
+Coming soon!
+
 <br><br>
 
 ---
@@ -196,7 +200,7 @@ optional arguments:
 
 Simple installation assuming you already have dependencies installed.
 
-`pip install GeneGrouper`
+```pip install GeneGrouper```
 
 
 **Detailed:**
@@ -389,5 +393,12 @@ zstd                      1.5.0                ha95c52a_0    conda-forge
 
  ```
 
+## Citation
+
+Please cite:
+
+Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper
+Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann
+bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
 
 
