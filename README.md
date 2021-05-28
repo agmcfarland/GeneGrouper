@@ -1,61 +1,193 @@
 # GeneGrouper
 
 
-GeneGrouper is a command-line tool that finds gene clusters and bins them into representative gene cluster groups. GeneGrouper aims to provide a pan-genomic characterization for gene clusters of interest.
+GeneGrouper is a command-line tool that finds gene clusters in a set of genomes and bins them into groups of similar gene clusters.
 
+<img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-**Quick Overview**
-
-1. Requires a fasta file of your gene of interest and a set of GenBank File Format (.gbff) RefSeq genomes.
-
-2. Define the approximate length of the gene cluster by entering the distance upstream/downstream from the gene of interest.
-
-	GeneGrouper will search, cluster, and bin all gene clusters!
-
-3. Visualize your gene cluster bins and explore a rich dataset of sequences, orthology assignments, and gene clusters.
-
-
-**Example Application and Output**
-
-GeneGrouper was used to search 435 genomes from 6 different taxa for the 23-gene Pdu biosynthetic gene cluster to understand its distribution and gene content variation.
-
-The translated PduA gene was used as the seed gene and a genomic region 2,000 bp and 18,000 bp upstream was chosen. 
-
-GeneGrouper shows gene clusters found, their bin representative, and the similarity of other gene clusters in that bin.
-
-<img src="docs/multiplot_repregions_1.png" alt="GeneGrouper main output" width=600>
-<br><br>
-The percentage of genomes with at least one gene cluster in a gene cluster bin is also shown, this time by taxa.
-
-<img src="docs/region_taxa_breakdown_1.png" alt="GeneGrouper taxa breakdown" width=600>
-<br><br>
-The number genomes searched (red) and those with at least one gene cluster found (blue) is shown, also by taxa.
-
-<img src="docs/taxa_found.png" alt="GeneGrouper taxa searched" width=600>
 <br><br>
 
+---
 
-**Input size and speed**
+<br><br>
+## Quick Overview
 
-Using 4 cores and 2 GB of RAM, GeneGrouper was run on 1130 genomes and...
+**Inputs**
 
-1. Took 8 minutes to build a genome database (only needs to be done once).
+1. A translated gene of interest (.faa/.fasta/.txt)
+2. A set of genomes from RefSeq (.gbff)
 
-2. Took less than 4 minutes to search, cluster, bin, and visualize \~3000 gene clusters per search.
+**Outputs**
+
+1. A database of the genomes to be searched needs to be built once
+2. Afterwards, each individual search for a gene of interest will return a new folder containing all gene clusters and their groupings
+
+**Visualizations and data**
+
+1. GeneGrouper produces 4 different visualizations to understand the pan-genomic context of gene cluster bins.
+
+2. Several datasets are outputted for further inspection by the user.
+
+**Performance**
+
+For 1,130 genomes and using a 2.2Ghz quad-core MacBook Pro, GeneGrouper:
+
+1. Builds a database in 8 minutes (this step is only done once)
+
+2. Neatly bins 2,300 separate gene clusters in \~4 minutes
 
 
+## Quick Start
 
 
+Use `build_database` to make a database of your RefSeq .gbff genomes
 
-## Usage
+```
+GeneGrouper -g /path/to/gbff -d /path/to/output_directory \
+build_database
+```
 
-### Build Database
+Use `find_regions` to search for gene clusters and output to a search-specific directory, 'gene_name'
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta 
+```
+
+Visualize gene clusters and their distribution among genomes and taxa
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+visualize -vt main
+```
 
 
-### Search & Cluster
+## Additional usage cases
 
 
-### Visualize Clusters
+Search for gene clusters and define the genomic window
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta -us 2000 -ds 18000
+```
+
+Search for gene clusters containing a seed gene with >=70% identity and >=90% coverage to the query gene
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta -i 70 -c 90
+```
+
+Allow for up to one gene cluster found per genome
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta -hk 1
+```
+
+Have two gene cluster re-clustering iterations
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta -re 2
+```
+
+Do it all at once
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+find_regions -f /path/to/seed_gene.fasta -us 2000 -ds 18000 -i 70 -c 90 -hk 1 -re 2 
+```
+
+Visualize all subclusters within cluster label 'c0'
+
+```
+GeneGrouper -d /path/to/output_directory -n gene_name \
+region_cluster -vt region_cluster -clab 0
+```
+
+<br><br>
+
+---
+
+<br><br>
+
+## Tutorial
+
+Coming soon! Example dataset and tutorial!
+
+<br><br>
+
+---
+
+<br><br>
+
+## Commands
+
+**Top-level commands**
+```
+GeneGrouper [-h] [-d PROJECT_DIRECTORY] [-n SEARCH_NAME]
+                     [-g GENOMES_DIRECTORY] [-t THREADS]
+                     {build_database,find_regions,visualize} ...
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d PROJECT_DIRECTORY, --project_directory PROJECT_DIRECTORY
+                        main directory to contain the base files used for
+                        region searching and clustering
+  -n SEARCH_NAME, --search_name SEARCH_NAME
+                        name of the directory to contain search-specific
+                        results
+  -g GENOMES_DIRECTORY, --genomes_directory GENOMES_DIRECTORY
+                        directory containing genbank-file format genomes with
+                        the suffix .gbff
+  -t THREADS, --threads THREADS
+                        number of threads to use
+
+subcommands:
+  valid subcommands
+
+  {build_database,find_regions,visualize}
+                        sub-command help
+    build_database      convert a set of genomes into a useuable format for
+                        GeneToRegions
+    find_regions        find regions given a translated gene and a set of
+                        genomes
+    visualize           visualize region clusters
+```
+
+
+**find_regions commands**
+```
+GeneGrouper find_regions 
+  -h, --help            show this help message and exit
+  -f SEED_FILE, --seed_file SEED_FILE
+                        provide the absolute path to a fasta file containing a
+                        translated gene sequence
+  -us UPSTREAM_SEARCH, --upstream_search UPSTREAM_SEARCH
+                        upstream search length in basepairs
+  -ds DOWNSTREAM_SEARCH, --downstream_search DOWNSTREAM_SEARCH
+                        downstream search length in basepairs
+  -i SEED_IDENTITY, --seed_identity SEED_IDENTITY
+                        identity cutoff for initial blast search
+  -c SEED_COVERAGE, --seed_coverage SEED_COVERAGE
+                        coverage cutoff for initial blast search
+  -hk SEED_HITS_KEPT, --seed_hits_kept SEED_HITS_KEPT
+                        number of blast hits to keep
+  -re RECLUSTER_ITERATIONS, --recluster_iterations RECLUSTER_ITERATIONS
+                        number of region re-clustering attempts after the
+                        initial clustering
+```
+
+**visualize commands**
+```
+GeneGrouper visualize 
+optional arguments:
+  -h, --help            show this help message and exit
+  -vt {main,region_cluster}, --visual_type {main,region_cluster}
+  -clab CLUSTER_LABEL, --cluster_label CLUSTER_LABEL
+```
 
 
 ## Installation
@@ -91,7 +223,6 @@ conda install -c conda-forge -c bioconda mmseqs2
 conda install -c bioconda mcl
 
 conda install -c bioconda blast
-
 ```
 
 

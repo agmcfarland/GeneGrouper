@@ -133,7 +133,7 @@ def main(args = None):
 		args = sys.argv[1:]
 
 	# create parser
-	parser = argparse.ArgumentParser(prog = 'GeneToRegions')
+	parser = argparse.ArgumentParser(prog = 'GeneGrouper')
 
 	# add common args to parser
 	parser.add_argument('-d', '--project_directory', type=str, default=os.getcwd(), help = 'main directory to contain the base files used for region searching and clustering')
