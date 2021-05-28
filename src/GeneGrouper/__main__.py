@@ -145,7 +145,7 @@ def main(args = None):
 	subparsers = parser.add_subparsers(title='subcommands', description ='valid subcommands', help = 'sub-command help', dest='command')
 
 	# build_database subparser 
-	parser_bd = subparsers.add_parser('build_database', help ='convert a set of genomes into a useuable format for GeneToRegions ')
+	parser_bd = subparsers.add_parser('build_database', help ='convert a set of genomes into a useuable format for GeneGrouper ')
 	parser_bd.set_defaults(func=run_BuildGenomeDatabase)
 
 	# find_regions args

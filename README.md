@@ -151,7 +151,7 @@ subcommands:
   {build_database,find_regions,visualize}
                         sub-command help
     build_database      convert a set of genomes into a useuable format for
-                        GeneToRegions
+                        GeneGrouper
     find_regions        find regions given a translated gene and a set of
                         genomes
     visualize           visualize region clusters
@@ -196,7 +196,7 @@ optional arguments:
 
 Simple installation assuming you already have dependencies installed.
 
-[check me out]('https://github.com/agmcfarland')
+`pip install GeneGrouper`
 
 
 **Detailed:**
