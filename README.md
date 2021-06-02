@@ -7,28 +7,31 @@ GeneGrouper is a command-line tool that finds gene clusters in a set of genomes 
 
 <br><br>
 
+
 ---
 
 <br><br>
 ## Quick Overview
 
-**Inputs**
+#### Inputs
 
 1. A translated gene of interest (.faa/.fasta/.txt)
+
 2. A set of genomes from RefSeq (.gbff)
 
-**Outputs**
+#### Outputs
 
-1. A database of the genomes to be searched (this step is run only once. Afterwards you can run as many searches as you want!)
+1. An indexed database of genomes.
+
 2. For each individual search, a new folder will be outputted containing all gene clusters and their groupings
 
-**Visualizations and data**
+#### Visualizations and data
 
 1. GeneGrouper produces 4 different visualizations to understand the pan-genomic context of gene cluster bins.
 
 2. Several datasets are outputted for further inspection by the user.
 
-**Performance**
+#### Performance
 
 For 1,130 genomes and using a 2.2Ghz quad-core MacBook Pro, GeneGrouper:
 
@@ -40,21 +43,21 @@ For 1,130 genomes and using a 2.2Ghz quad-core MacBook Pro, GeneGrouper:
 ## Quick Start
 
 
-Use `build_database` to make a database of your RefSeq .gbff genomes
+#### Use `build_database` to make a database of your RefSeq .gbff genomes
 
 ```
 GeneGrouper -g /path/to/gbff -d /path/to/output_directory \
 build_database
 ```
 
-Use `find_regions` to search for gene clusters and output to a search-specific directory, 'gene_name'
+#### Use `find_regions` to search for gene clusters and output to a search-specific directory, 'gene_name'
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta 
 ```
 
-Visualize gene clusters and their distribution among genomes and taxa
+#### Use `visualize` to output visualizations of gene clusters and their distribution among genomes and taxa
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
@@ -62,49 +65,53 @@ visualize -vt main
 ```
 
 
-## Additional usage cases
+## Additional paramters and examples
+
+#### `find_regions`
 
 
-Search for gene clusters and define the genomic window
+Search for gene clusters 2,000 bp upstream and 18,000 bp downstream of the seed gene.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta -us 2000 -ds 18000
 ```
 
-Search for gene clusters containing a seed gene with >=70% identity and >=90% coverage to the query gene
+Restrict gene clusters to those containing a seed gene with >=70% identity and >=90% coverage to the query gene.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta -i 70 -c 90
 ```
 
-Allow for up to one gene cluster found per genome
+Allow for up to one gene cluster found per genome.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta -hk 1
 ```
 
-Have two gene cluster re-clustering iterations
+Repeat the gene cluster clustering procedure 2 times.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta -re 2
 ```
 
-Do it all at once
+Do it all at once.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
 find_regions -f /path/to/seed_gene.fasta -us 2000 -ds 18000 -i 70 -c 90 -hk 1 -re 2 
 ```
 
-Visualize all subclusters within cluster label 'c0'
+#### `visualize` 
+
+Visualize all subclusters within cluster label 'c0'.
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
-region_cluster -vt region_cluster -clab 0
+visualize -vt region_cluster -clab 0
 ```
 
 <br><br>
@@ -393,12 +400,21 @@ zstd                      1.5.0                ha95c52a_0    conda-forge
 
  ```
 
+## FAQ
+
+#### 1. Where can I download RefSeq genomes?
+
+#### 2. 
+
+
 ## Citation
 
 Please cite:
 
 Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper
+
 Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann
+
 bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
 
 

@@ -100,15 +100,15 @@ def OutputRegionResults(
 	conn2 = sql.connect(pjoin(UserInput_main_dir,'genomes.db'))
 
 	## prepare taxonomy data ##
-	df_meta = pd.read_sql_query("SELECT * from gb_metadata", conn2)
+	df_meta = pd.read_sql_query("SELECT * FROM gb_metadata", conn2)
 	df_meta['genus'] = [t.split(' ')[0].lower() for t in df_meta['organism'].tolist()]
 	df_meta['species'] = [t.split(' ')[1].lower() for t in df_meta['organism'].tolist()]
 	df_meta = df_meta[['assembly_id','genus','species','organism']]
 
 	## add ortholog, mmseqs cluster ids, dbscan labels, and filtered hit results to the extracted seed regions ##
-	df_sr = pd.read_sql_query("SELECT * from seed_regions", conn) 
-	df_cr = pd.read_sql_query("SELECT * from dbscan_label_representatives", conn)
-	df_or = pd.read_sql_query("SELECT * from select_mcl_results", conn)
+	df_sr = pd.read_sql_query("SELECT * FROM seed_regions", conn) 
+	df_cr = pd.read_sql_query("SELECT * FROM dbscan_label_representatives", conn)
+	df_or = pd.read_sql_query("SELECT * FROM select_mcl_results", conn)
 
 	# ----  Make comprehensive region & cluster data table ---- #
 
