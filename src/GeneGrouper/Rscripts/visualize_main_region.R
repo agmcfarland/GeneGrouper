@@ -17,8 +17,8 @@ visualizations_dir <- args[2]
 setwd(results_dir)
 
 ## Troubleshooting ##
-#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/t4s/results') #debugging
-#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1/t4s/visualizations' #debugging
+#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test1/pdua/results') #debugging
+#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test1/pdua/visualizations' #debugging
 ## ## ## ## ## ## ## ##
 
 # dataframe with scaling parameters for each
@@ -120,7 +120,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
           plot.background = element_rect(fill = "transparent", colour = NA),#element_blank()
           )+
     scale_y_discrete(#labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(region_order=paste(region_order,'. c',dbscan_label,sep=''))%>%select(region_order)%>%pull(),
-      labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(region_order=paste('c',dbscan_label,sep=''))%>%select(region_order)%>%pull(),
+      labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(region_order=paste('g',dbscan_label,sep=''))%>%select(region_order)%>%pull(),
       breaks = df_chunk_order%>%filter(chunk_group==ch)%>%select(dbscan_label)%>%pull(),
       limits = rev)+
     xlab(label='Normalized gene position (bp)')
@@ -288,7 +288,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
           panel.grid.major.x=element_blank(),
           axis.ticks.y=element_blank())+
     scale_y_discrete(
-      labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(dbscan_label=paste('c',dbscan_label,sep=''))%>%select(dbscan_label)%>%pull(),
+      labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(dbscan_label=paste('g',dbscan_label,sep=''))%>%select(dbscan_label)%>%pull(),
       breaks = df_chunk_order%>%filter(chunk_group==ch)%>%select(dbscan_label)%>%pull())
     
   

@@ -114,6 +114,30 @@ def make_BlastDatabase(assembly_id, assembly_faa_dir, blast_db_path):
 	check_call(['makeblastdb', '-in', full_faa_path, '-out', full_db_path, '-dbtype', 'prot', '-title', '"{}_db"'.format(assembly_id), '-parse_seqids'], stdout=DEVNULL, stderr=STDOUT)
 
 
+
+def update_GenomesDatabase():
+	'''
+	'''
+	pass
+
+
+def check_ForGenomes(genome_inputs_dir):
+	'''
+	'''
+
+	pass
+
+
+def build_GenomesDatabase(genomes_list):
+	'''
+	'''
+	pass
+
+
+
+
+
+
 ## ---- START OF SCRIPT ---- ##
 def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInput_processes):
 	'''

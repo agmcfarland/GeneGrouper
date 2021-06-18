@@ -1,7 +1,8 @@
 # GeneGrouper
 
 
-GeneGrouper is a command-line tool that finds gene clusters in a set of genomes and bins them into groups of similar gene clusters.
+GeneGrouper is a command-line tool that finds gene clusters that contain a gene of interest in a set of genomes and bins them into groups of similar gene clusters.
+
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
@@ -15,15 +16,13 @@ GeneGrouper is a command-line tool that finds gene clusters in a set of genomes 
 
 #### Inputs
 
-1. A translated gene of interest (.faa/.fasta/.txt)
+1. One translated gene of interest (.faa/.fasta/.txt)
 
-2. A set of genomes from RefSeq (.gbff)
+2. Two or more genomes from RefSeq (.gbff)
 
 #### Outputs
 
-1. An indexed database of genomes.
-
-2. For each individual search, a new folder will be outputted containing all gene clusters and their groupings
+1. For each individual search, a new folder will be outputted containing all gene clusters and their groupings
 
 #### Visualizations and data
 
@@ -45,12 +44,16 @@ For 1,130 genomes and using a 2.2Ghz quad-core MacBook Pro, GeneGrouper:
 
 #### Use `build_database` to make a database of your RefSeq .gbff genomes
 
+You only need to make a database of the genomes once.
+
 ```
 GeneGrouper -g /path/to/gbff -d /path/to/output_directory \
 build_database
 ```
 
 #### Use `find_regions` to search for gene clusters and output to a search-specific directory, 'gene_name'
+
+Now you can search the database of genomes for gene clusters that contain your gene of interest! 
 
 ```
 GeneGrouper -d /path/to/output_directory -n gene_name \
@@ -400,11 +403,7 @@ zstd                      1.5.0                ha95c52a_0    conda-forge
 
  ```
 
-## FAQ
 
-#### 1. Where can I download RefSeq genomes?
-
-#### 2. 
 
 
 ## Citation
@@ -417,4 +416,7 @@ Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek,
 
 bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
 
+## Contact
+
+Contact me at alexandermcfarland2022@u.northwestern.edu
 
