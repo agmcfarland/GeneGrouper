@@ -35,11 +35,10 @@ In this way, GeneGrouper can show the user all regions that have different gene 
 
 This approach can be used to find whether a specific gene cluster is found in all searched genomes, and whether each gene cluster that is found has all the expected genes, or whether there is unusual gene content.
 
-<br></br>
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-Figure 1: GeneGrouper overview (A-C). Panel D shows GeneGrouper results after searching 1,130 *Salmonella enterica* genomes for regions containing *pduA* homologs.
+**Figure 1:** GeneGrouper overview (A-C). Panel D shows GeneGrouper results after searching 1,130 *Salmonella enterica* genomes for regions containing *pduA* homologs.
 
 <br></br>
 
@@ -49,24 +48,23 @@ Figure 1: GeneGrouper overview (A-C). Panel D shows GeneGrouper results after se
 
 We wanted to know whether the catabolic Pdu gene cluster was present in 1,130 *Salmonella enterica*. This gene cluster is made up of 23 genes **(Fig. 2)**. We expected one copy of the intact Pdu gene cluster per genome.
 
-<br></br>
 
 <img src="docs/pdu_gene_cluster.png" alt="Pdu gene cluster figure" width=1000>
 
-Figure 2. Pdu gene cluster architecture. *pduA* is highlighted in red.
+**Figure 2.** Pdu gene cluster architecture. *pduA* is highlighted in red.
 <br></br>
 
-**Methods**
+#### Methods
 
 We used GeneGrouper  to search for all occurrences of the *pduA* gene, which is an important component of the Pdu gene cluster. We specified that if *pduA* is found, extract all genes 2,000 bp upstream and 18,000 bp downstream of it **(Fig. 2)**. This should encompass all 23 Pdu gene cluster genes. 
 
-**Results**
+#### Results
 
-We had 2,252 *pduA* hits and the region surrounding each *pduA* gene homolog was extracted as defined above. GeneGrouper separated all 2,252 regions into five different groups according to their gene content. We can see in the output (Fig. 1 D center) that group 0 is composed of 1,120 regions that have the genes we expected to find in the Pdu gene cluster. We can also see how dissimilar the gene content is for each member of each group (Fig. 1 D right). We can also see how the identity and coverage of each *pduA* gene from each member compares to our query gene **(Fig. 1 D left)**. 
+GeneGrouper found 2,252 *pduA* hits and extracted the regiong surrounding each *pduA*. All 2,252 regions were binned into five different groups according to their gene content. Visual inspection of the output showed (Fig. 1 D center) that group 0 is composed of 1,120 regions that have the genes we expected to find in the Pdu gene cluster. The dissimilarity of the gene content for each member of each group was quantified. (Fig. 1 D right). Additionally, the identity and coverage of each *pduA* seed gene from each member compared to the query *pduA* gene was also quantified **(Fig. 1 D left)**. 
 
 Other groups with different gene architectures from the Pdu gene cluster, but containing a *pduA* gene homolog are also present **(Fig. 1D groups 1-3)**. 
 
-**Conclusions**
+#### Conclusions
 
 The group 0 boxplot of region dissimilarities **(Fig. 1 D right)** indicate 99% of genomes had a region that almost exactly matched the Pdu gene cluster, with gene content differences ranging between 0-0.25, with a median of 0. We can conclude that the Pdu gene cluster is a core component of most *S. enterica* genomes, and that some of these Pdu gene clusters are undergoing gene/gain loss. [We explore the implications of these results in our publication pre-print](https://doi.org/10.1101/2021.05.27.446007). 
 
