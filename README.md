@@ -1,12 +1,8 @@
 
+
 **GeneGrouper** finds gene clusters (genes that are next to each other in the genome) that contain a gene of interest and separates them into groups of gene clusters based on the similarity of their gene content. The goal of GeneGrouper is to allow for understanding how gene content can vary, if only slightly, in up to thousands of similar gene clusters, and how those gene clusters are distributed in genomes.
 
-<<<<<<< Updated upstream
-GeneGrouper is a command-line tool that finds gene clusters that contain a gene of interest in a set of genomes and bins them into groups of similar gene clusters.
-
-=======
 ## Table of contents 
->>>>>>> Stashed changes
 
 1. **Why use GeneGrouper**
 
@@ -18,28 +14,20 @@ GeneGrouper is a command-line tool that finds gene clusters that contain a gene 
 
 5. **Example dataset and searches**
 
-6. **Search output file structure and file descriptions**
+6. **Output descriptions**
 
-<<<<<<< Updated upstream
-1. One translated gene of interest (.faa/.fasta/.txt)
-
-2. Two or more genomes from RefSeq (.gbff)
-=======
 7. **Creating a conda environment with all dependencies**
 
 8. **FAQ**
->>>>>>> Stashed changes
 
 9. **Citation**
 
-<<<<<<< Updated upstream
-1. For each individual search, a new folder will be outputted containing all gene clusters and their groupings
-=======
-10. **References**
+10. **Contact**   
 
->>>>>>> Stashed changes
+11. **References**
 
-# Why use GeneGrouper?
+
+# 1. Why use GeneGrouper?
 
 GeneGrouper searches many genomes for a query gene using BLAST. When GeneGrouper finds a hit, it uses that gene as a seed and extracts the surrounding upstream and downstream genes **(Fig. 1 A-C)**. The extracted regions are then separated into groups of regions that share similar gene content **(Fig. 1 D)**. 
 
@@ -47,52 +35,43 @@ In this way, GeneGrouper can show the user all regions that have different gene 
 
 This approach can be used to find whether a specific gene cluster is found in all searched genomes, and whether each gene cluster that is found has all the expected genes, or whether there is unusual gene content.
 
+<br></br>
+
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
 Figure 1: GeneGrouper overview (A-C). Panel D shows GeneGrouper results after searching 1,130 *Salmonella enterica* genomes for regions containing *pduA* homologs.
 
-# Example application
+<br></br>
+
+# 2. Example application
 
 **Introduction**
 
 We wanted to know whether the catabolic Pdu gene cluster was present in 1,130 *Salmonella enterica*. This gene cluster is made up of 23 genes **(Fig. 2)**. We expected one copy of the intact Pdu gene cluster per genome.
 
+<br></br>
+
 <img src="docs/pdu_gene_cluster.png" alt="Pdu gene cluster figure" width=1000>
+
+Figure 2. Pdu gene cluster architecture. *pduA* is highlighted in red.
+<br></br>
 
 **Methods**
 
-<<<<<<< Updated upstream
-You only need to make a database of the genomes once.
-
-```
-GeneGrouper -g /path/to/gbff -d /path/to/output_directory \
-build_database
-```
-=======
 We used GeneGrouper  to search for all occurrences of the *pduA* gene, which is an important component of the Pdu gene cluster. We specified that if *pduA* is found, extract all genes 2,000 bp upstream and 18,000 bp downstream of it **(Fig. 2)**. This should encompass all 23 Pdu gene cluster genes. 
->>>>>>> Stashed changes
 
 **Results**
 
-<<<<<<< Updated upstream
-Now you can search the database of genomes for gene clusters that contain your gene of interest! 
-
-```
-GeneGrouper -d /path/to/output_directory -n gene_name \
-find_regions -f /path/to/seed_gene.fasta 
-```
-=======
 We had 2,252 *pduA* hits and the region surrounding each *pduA* gene homolog was extracted as defined above. GeneGrouper separated all 2,252 regions into five different groups according to their gene content. We can see in the output (Fig. 1 D center) that group 0 is composed of 1,120 regions that have the genes we expected to find in the Pdu gene cluster. We can also see how dissimilar the gene content is for each member of each group (Fig. 1 D right). We can also see how the identity and coverage of each *pduA* gene from each member compares to our query gene **(Fig. 1 D left)**. 
 
 Other groups with different gene architectures from the Pdu gene cluster, but containing a *pduA* gene homolog are also present **(Fig. 1D groups 1-3)**. 
->>>>>>> Stashed changes
 
 **Conclusions**
 
 The group 0 boxplot of region dissimilarities **(Fig. 1 D right)** indicate 99% of genomes had a region that almost exactly matched the Pdu gene cluster, with gene content differences ranging between 0-0.25, with a median of 0. We can conclude that the Pdu gene cluster is a core component of most *S. enterica* genomes, and that some of these Pdu gene clusters are undergoing gene/gain loss. [We explore the implications of these results in our publication pre-print](https://doi.org/10.1101/2021.05.27.446007). 
 
 
-# Installation
+# 3. Installation
 
 Use pip to install:
 
@@ -105,22 +84,36 @@ See the section 'Creating a conda environment with all dependencies' for more de
 ## Requirements and dependencies
 
 [Python >= 3.6](https://www.python.org/)
+
 [biopython](https://biopython.org/wiki/Packages)
+
 [scikit-learn](https://scikit-learn.org/stable/)
+
 [pandas](https://pandas.pydata.org/docs/index.html)
+
 [matplotlib](https://matplotlib.org/)
+
 [MMseqs2]( https://github.com/soedinglab/MMseqs2)
+
 [MCL](https://github.com/JohannesBuchner/mcl)
+
 [BLAST]( https://anaconda.org/bioconda/blast)
+
 [R >= 4.0.0 (for visualizations)](https://www.r-project.org/)
+
 [gggenes](https://cran.r-project.org/web/packages/gggenes/vignettes/introduction-to-gggenes.html)
+
 [reshape](https://cran.r-project.org/web/packages/reshape/index.html)
+
 [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html)
+
 [cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
+
 [dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
+
 [groupdata2](https://cran.r-project.org/web/packages/groupdata2/vignettes/introduction_to_groupdata2.html)
 
-# Usage
+# 4. Usage
 GeneGrouper has two required inputs:
 1. A translated gene sequence in fasta format (with file extension .fasta/.txt)
 2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). 
@@ -179,7 +172,7 @@ Visualize all members within group label 0
 GeneGrouper -d /path/to/main_directory -n gene_name \
 visualize --visual_type group --group_label 0
 ```
-# Example dataset and searches
+# 5. Example dataset and searches
 
 In this section we use GeneGrouper to search for three different genes and the gene clusters they represent.
 
@@ -303,7 +296,7 @@ From the outputs, only two distinct groups show up. A third group, g-1, contains
 Interestingly, of the two distinct groups, we observe a taxa dependent distribution. The mobile genetic elements these beta-lactamases are associated with may be adapted to transfer between members of the same species.
 
 
-# Search output file structure and file descriptions
+# 6. Search output file structure and file descriptions
 
 Each GeneGrouper region search produces the following output:
 
@@ -383,7 +376,7 @@ Each GeneGrouper region search produces the following output:
 
 * Three-part visualization of a group inspection output. The left panel shows the counts of each unique subgroup architecture. Middle panel shows the subgroup architecture. Right panel shows the dissimilarity of the subgroup gene content relative to subgroup 0, which is also the group representative.
 
-# Creating a conda environment with all dependencies
+# 7. Creating a conda environment with all dependencies
 
 Instructions for creating a self-contained conda environment for GeneGrouper with all required dependencies.
 
@@ -424,153 +417,7 @@ Finally,
 pip install GeneGrouper
 ```
 
-<<<<<<< Updated upstream
- **Dependencies:**
-
-```
-conda list
-
-# Name                    Version                   Build  Channel
-_libgcc_mutex             0.1                 conda_forge    conda-forge
-_openmp_mutex             4.5                       1_gnu    conda-forge
-_r-mutex                  1.0.1               anacondar_1    conda-forge
-binutils_impl_linux-64    2.35.1               h193b22a_2    conda-forge
-binutils_linux-64         2.35                h67ddf6f_30    conda-forge
-biopython                 1.78                     pypi_0    pypi
-blast                     2.5.0                hc0b0e79_3    bioconda
-boost                     1.76.0           py39h5472131_0    conda-forge
-boost-cpp                 1.76.0               h312852a_1    conda-forge
-bwidget                   1.9.14               ha770c72_0    conda-forge
-bzip2                     1.0.8                h7f98852_4    conda-forge
-c-ares                    1.17.1               h7f98852_1    conda-forge
-ca-certificates           2020.12.5            ha878542_0    conda-forge
-cairo                     1.16.0            h6cf1ce9_1008    conda-forge
-certifi                   2020.12.5        py39hf3d152e_1    conda-forge
-curl                      7.76.1               hea6ffbf_2    conda-forge
-cycler                    0.10.0                   pypi_0    pypi
-font-ttf-dejavu-sans-mono 2.37                 hab24e00_0    conda-forge
-font-ttf-inconsolata      3.000                h77eed37_0    conda-forge
-font-ttf-source-code-pro  2.038                h77eed37_0    conda-forge
-font-ttf-ubuntu           0.83                 hab24e00_0    conda-forge
-fontconfig                2.13.1            hba837de_1005    conda-forge
-fonts-conda-ecosystem     1                             0    conda-forge
-fonts-conda-forge         1                             0    conda-forge
-freetype                  2.10.4               h0708190_1    conda-forge
-fribidi                   1.0.10               h36c2ea0_0    conda-forge
-gawk                      5.1.0                h7f98852_0    conda-forge
-gcc_impl_linux-64         9.3.0               h70c0ae5_19    conda-forge
-gcc_linux-64              9.3.0               hf25ea35_30    conda-forge
-genegrouper               0.0.1                    pypi_0    pypi
-gettext                   0.19.8.1          h0b5b191_1005    conda-forge
-gfortran_impl_linux-64    9.3.0               hc4a2995_19    conda-forge
-gfortran_linux-64         9.3.0               hdc58fab_30    conda-forge
-graphite2                 1.3.13            h58526e2_1001    conda-forge
-gsl                       2.6                  he838d99_2    conda-forge
-gxx_impl_linux-64         9.3.0               hd87eabc_19    conda-forge
-gxx_linux-64              9.3.0               h3fbe746_30    conda-forge
-harfbuzz                  2.8.1                h83ec7ef_0    conda-forge
-icu                       68.1                 h58526e2_0    conda-forge
-jbig                      2.1               h7f98852_2003    conda-forge
-joblib                    1.0.1                    pypi_0    pypi
-jpeg                      9d                   h36c2ea0_0    conda-forge
-kernel-headers_linux-64   2.6.32              h77966d4_13    conda-forge
-kiwisolver                1.3.1                    pypi_0    pypi
-krb5                      1.19.1               hcc1bbae_0    conda-forge
-ld_impl_linux-64          2.35.1               hea4e1c9_2    conda-forge
-lerc                      2.2.1                h9c3ff4c_0    conda-forge
-libblas                   3.9.0                9_openblas    conda-forge
-libcblas                  3.9.0                9_openblas    conda-forge
-libcurl                   7.76.1               h2574ce0_2    conda-forge
-libdeflate                1.7                  h7f98852_5    conda-forge
-libedit                   3.1.20191231         he28a2e2_2    conda-forge
-libev                     4.33                 h516909a_1    conda-forge
-libffi                    3.3                  h58526e2_2    conda-forge
-libgcc-devel_linux-64     9.3.0               h7864c58_19    conda-forge
-libgcc-ng                 9.3.0               h2828fa1_19    conda-forge
-libgfortran-ng            9.3.0               hff62375_19    conda-forge
-libgfortran5              9.3.0               hff62375_19    conda-forge
-libglib                   2.68.2               h3e27bee_0    conda-forge
-libgomp                   9.3.0               h2828fa1_19    conda-forge
-libiconv                  1.16                 h516909a_0    conda-forge
-libidn2                   2.3.1                h7f98852_0    conda-forge
-liblapack                 3.9.0                9_openblas    conda-forge
-libnghttp2                1.43.0               h812cca2_0    conda-forge
-libopenblas               0.3.15          pthreads_h8fe5266_1    conda-forge
-libpng                    1.6.37               h21135ba_2    conda-forge
-libssh2                   1.9.0                ha56f1ee_6    conda-forge
-libstdcxx-devel_linux-64  9.3.0               hb016644_19    conda-forge
-libstdcxx-ng              9.3.0               h6de172a_19    conda-forge
-libtiff                   4.3.0                hf544144_1    conda-forge
-libunistring              0.9.10               h14c3975_0    conda-forge
-libuuid                   2.32.1            h7f98852_1000    conda-forge
-libwebp-base              1.2.0                h7f98852_2    conda-forge
-libxcb                    1.13              h7f98852_1003    conda-forge
-libxml2                   2.9.12               h72842e0_0    conda-forge
-lz4-c                     1.9.3                h9c3ff4c_0    conda-forge
-make                      4.3                  hd18ef5c_1    conda-forge
-matplotlib                3.4.2                    pypi_0    pypi
-mcl                       14.137          pl5262h779adbc_6    bioconda
-mmseqs2                   13.45111             h95f258a_1    bioconda
-ncurses                   6.2                  h58526e2_4    conda-forge
-numpy                     1.20.3           py39hdbf815f_0    conda-forge
-openssl                   1.1.1k               h7f98852_0    conda-forge
-pandas                    1.2.4                    pypi_0    pypi
-pango                     1.48.5               hb8ff022_0    conda-forge
-pcre                      8.44                 he1b5a44_0    conda-forge
-pcre2                     10.36                h032f7d1_1    conda-forge
-perl                      5.26.2            h36c2ea0_1008    conda-forge
-pillow                    8.2.0                    pypi_0    pypi
-pip                       21.1.2             pyhd8ed1ab_0    conda-forge
-pixman                    0.40.0               h36c2ea0_0    conda-forge
-pthread-stubs             0.4               h36c2ea0_1001    conda-forge
-pyparsing                 2.4.7                    pypi_0    pypi
-python                    3.9.4           hffdb5ce_0_cpython    conda-forge
-python-dateutil           2.8.1                    pypi_0    pypi
-python_abi                3.9                      1_cp39    conda-forge
-pytz                      2021.1                   pypi_0    pypi
-r-base                    4.1.0                h9e01966_1    conda-forge
-readline                  8.1                  h46c0cb4_0    conda-forge
-scikit-learn              0.24.2                   pypi_0    pypi
-scipy                     1.6.3                    pypi_0    pypi
-sed                       4.8                  he412f7d_0    conda-forge
-setuptools                49.6.0           py39hf3d152e_3    conda-forge
-six                       1.16.0                   pypi_0    pypi
-sqlite                    3.35.5               h74cdb3f_0    conda-forge
-sysroot_linux-64          2.12                h77966d4_13    conda-forge
-threadpoolctl             2.1.0                    pypi_0    pypi
-tk                        8.6.10               h21135ba_1    conda-forge
-tktable                   2.10                 hb7b940f_3    conda-forge
-tzdata                    2021a                he74cb21_0    conda-forge
-wget                      1.20.1               h22169c7_0    conda-forge
-wheel                     0.36.2             pyhd3deb0d_0    conda-forge
-xorg-kbproto              1.0.7             h7f98852_1002    conda-forge
-xorg-libice               1.0.10               h7f98852_0    conda-forge
-xorg-libsm                1.2.3             hd9c2040_1000    conda-forge
-xorg-libx11               1.7.1                h7f98852_0    conda-forge
-xorg-libxau               1.0.9                h7f98852_0    conda-forge
-xorg-libxdmcp             1.1.3                h7f98852_0    conda-forge
-xorg-libxext              1.3.4                h7f98852_1    conda-forge
-xorg-libxrender           0.9.10            h7f98852_1003    conda-forge
-xorg-libxt                1.2.1                h7f98852_2    conda-forge
-xorg-renderproto          0.11.1            h7f98852_1002    conda-forge
-xorg-xextproto            7.3.0             h7f98852_1002    conda-forge
-xorg-xproto               7.0.31            h7f98852_1007    conda-forge
-xz                        5.2.5                h516909a_1    conda-forge
-zlib                      1.2.11            h516909a_1010    conda-forge
-zstd                      1.5.0                ha95c52a_0    conda-forge
-
- ```
-
-
-
-
-## Citation
-
-Please cite:
-
-Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper
-=======
-# FAQ
+# 8. FAQ
 
 #### 1. Where can I download GenBank-format RefSeq genomes with file extension .gbff?
 
@@ -633,28 +480,22 @@ GeneGrouper has only been tested on RefSeq GenBank format (.gbff) genomes.
 #### 9. Does GeneGrouper work on Eukaryotic, Archaeal, or viral genomes?
 GeneGrouper has only been tested on bacterial genomes. It likely does not work at all on Eukaryotes.
 
-# Citation
+# 9. Citation
 
 **Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper**
->>>>>>> Stashed changes
 
 Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann
 
 bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
 
-<<<<<<< Updated upstream
-## Contact
-
-Contact me at alexandermcfarland2022@u.northwestern.edu
-=======
-# Contact
+# 10. Contact
 
 Feel free to message me at alexandermcfarland2022@u.northwestern.edu
 
 Follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
 
 
-# References
+# 11. References
 
 
 1. Cock PJA, Antao T, Chang JT, Chapman BA, Cox CJ, Dalke A, et al. Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics. 2009 Jun 1;25(11):1422–3.
@@ -676,6 +517,5 @@ Follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)!
 9. Steinegger M, Söding J. Clustering huge protein sequence sets in linear time. Nature Communications. 2018 Jun 29;9(1):2542.
 
 10. Ester M, Kriegel H-P, Xu X. A Density-Based Algorithm for Discovering Clusters in Large Spatial Databases with Noise. :6.
->>>>>>> Stashed changes
 
 11. Caliński T, Harabasz J. A dendrite method for cluster analysis. Communications in Statistics. 1974 Jan 1;3(1):1–27.
