@@ -181,6 +181,8 @@ svn checkout https://github.com/agmcfarland/GeneGrouper/trunk/test_data/query_ge
 gunzip ./genomes/*.gz
 ```
 
+**Note: if svn doesn't work, just manually download the two folders and place them in your empty folder**
+
 There will be 15 genomes total composed of four *Salmonella*, three *Klebsiella*, four *Citrobacter*, and four *Pseudomonas* genomes.
 
 #### Now build the database of the genomes. 
