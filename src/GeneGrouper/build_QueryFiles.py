@@ -200,12 +200,11 @@ def write_RegionSeqsToFile(assembly_id, output_dir_name):
 
 
 
-
 def BuildQueryFiles(
 	UserInput_main_dir,
 	UserInput_genome_inputs_dir,
 	UserInput_output_dir_name,
-	UserInput_seed_filename_path,
+	UserInput_query_filename_path,
 	UserInput_upstream_search_length,
 	UserInput_downstream_search_length,
 	UserInput_identity_threshold,
@@ -219,12 +218,11 @@ def BuildQueryFiles(
 #--------- Troubleshooting --------#
 # pd.set_option('display.max_columns', None)
 # mp.set_start_method("fork")
-
 # # UserInput_main_dir = '/projects/b1042/HartmannLab/alex/GeneGrouper_test/testbed/dataset1/test1'#'/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset1/test1'
 # UserInput_main_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset3/test1'
 # UserInput_output_dir_name = pjoin(UserInput_main_dir,'pdua')
 # UserInput_genome_inputs_dir = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset3/core'
-# UserInput_seed_filename_path = pjoin(UserInput_genome_inputs_dir,'pdua.txt')
+# UserInput_query_filename_path = pjoin(UserInput_genome_inputs_dir,'pdua.txt')
 # UserInput_upstream_search_length = 2000
 # UserInput_downstream_search_length = 18000
 # UserInput_identity_threshold = 15
@@ -242,8 +240,7 @@ def BuildQueryFiles(
 	make_OutputDirectory(new_directory=UserInput_output_dir_name)
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'regions'))
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'ortholog_clusters'))
-	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'results'))
-	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'region_clusters'))
+	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'internal_data'))
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'visualizations'))
 	make_OutputDirectory(new_directory='temp_blast_results')
 
@@ -253,10 +250,9 @@ def BuildQueryFiles(
 	conn2 = sql.connect(pjoin(UserInput_output_dir_name,'seed_results.db')) # seed_results database holds all seed search specific info. 
 
 
-
 	##---- Blast seed against database ----- ##
-	r_params = [[generate_AssemblyId(input_gbff_file=f), UserInput_seed_filename_path, 'blast_database', 'temp_blast_results'] for f in os.listdir(UserInput_genome_inputs_dir) if f.endswith('.gbff')]
-	print('MESSAGE: blasting seed against {} genomes'.format(len(r_params)))
+	r_params = [[generate_AssemblyId(input_gbff_file=f), UserInput_query_filename_path, 'blast_database', 'temp_blast_results'] for f in os.listdir(UserInput_genome_inputs_dir) if f.endswith('.gbff')]
+	print('Blasting seed against {} genomes'.format(len(r_params)))
 	start_t = time.time()
 	with Pool(processes=UserInput_processes) as p:
 		p.starmap(blast_Seed, r_params[:])
@@ -265,7 +261,7 @@ def BuildQueryFiles(
 
 	##---- identify and extract seed regions ----- ##
 	r_params = [[generate_AssemblyId(input_gbff_file=f), UserInput_upstream_search_length, UserInput_downstream_search_length,UserInput_identity_threshold,UserInput_coverage_threshold, UserInput_hitcount_threshold] for f in os.listdir(UserInput_genome_inputs_dir) if f.endswith('.gbff')]
-	print('MESSAGE: identifying and extracting seed regions for {} genomes'.format(len(r_params)))
+	print('Identifying and extracting seed regions for {} genomes'.format(len(r_params)))
 	start_t = time.time()
 	df_regions = pd.DataFrame()
 	with Pool(processes=UserInput_processes) as p:
@@ -283,7 +279,7 @@ def BuildQueryFiles(
 
 	##---- write seed region gene content to sql database ----- ##
 	r_params = [[generate_AssemblyId(input_gbff_file=f), UserInput_output_dir_name] for f in os.listdir(UserInput_genome_inputs_dir) if f.endswith('.gbff')]
-	print('MESSAGE: writing seed region sequences for for {} genomes'.format(len(r_params)))
+	print('Writing seed region sequences for for {} genomes'.format(len(r_params)))
 	start_t = time.time()
 	df_regions = pd.DataFrame()
 	with Pool(processes=UserInput_processes) as p:

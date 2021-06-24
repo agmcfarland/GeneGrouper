@@ -121,7 +121,7 @@ def plot_RepresentativeRegions(df_sr, df_cr):
 	df_m = df_m.merge(df_gggenes,on='locus_tag')
 	df_m = align_NormPositions(df_m=df_m)
 
-	df_m.to_csv(pjoin('results','rtable_region_representatives.csv'),index=None)
+	df_m.to_csv(pjoin('internal_data','rtable_region_representatives.csv'),index=None)
 
 
 
@@ -159,13 +159,12 @@ def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 	df_cwc = df_cwc.sort_values(by=['representative_relative_dissimilarity','count'], ascending=[True,False])
 	df_cwc['cwc_id'] = [i for i in range(len(df_cwc))]
 	df_cwc = df_cwc.rename(columns={'seed_region_id':'region_id'},inplace=False)
-	df_cwc.to_csv(pjoin('results','rtable_cwc_dis_counts.csv'),index=False)
+	df_cwc.to_csv(pjoin('internal_data','rtable_cwc_dis_counts.csv'),index=False)
 
 	# merge data with df_sr dataframe and store
 	df_cwc = df_cwc.merge(df_sr[['region_id','assembly_id','contig_id','locus_tag','cds_start','cds_end','global_strand','strand','pseudo_check','pident','qcovs','evalue','ortho_cluster_id',
 	'genus','species','refseq_product','refseq_gene','new_pos','is_seed','order']],
 	left_on='region_id',right_on='region_id',how='inner')
-	# df_cwc.to_csv(pjoin('results','rtable_cwc_extract_regions.csv'),index=False)
 
 	## convert to ggenes format and save
 	#reverse gene order for global_strand == -1 regions
@@ -175,7 +174,7 @@ def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 	df_gggenes = convert_ToGGGenesInput(df_m=df_cwc,filter_on='cwc_id')
 	df_cwc = df_cwc.merge(df_gggenes,on='locus_tag')
 	df_cwc = align_NormPositions(df_m=df_cwc)
-	df_cwc.to_csv(pjoin('results','rtable_cwc_regions.csv'),index=None)
+	df_cwc.to_csv(pjoin('internal_data','rtable_cwc_regions.csv'),index=None)
 
 
 
@@ -191,23 +190,21 @@ def MakeVisualizations(
 	'''
 	change_ToWorkingDirectory(directory_name = pjoin(UserInput_main_dir,UserInput_output_dir_name))
 	conn = sql.connect('seed_results.db')
-	df_sr = pd.read_csv(pjoin('region_clusters','full_region.csv'))
+	df_sr = pd.read_csv(pjoin('internal_data','full_region.csv'))
 	df_cr = pd.read_sql_query("SELECT * from dbscan_label_representatives", conn)
-
-	# if os.path.isfile(pjoin(UserInput_script_path,'visualize_main_region.R')) == True:
 
 	if UserInput_visualization_type == 'main':
 		print('Arranging clusters')
 		plot_RepresentativeRegions(df_sr=df_sr,df_cr=df_cr)
-		os.system('Rscript {}/visualize_main_region.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
-		# check_call(['Rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
-		# check_call(['Rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'results')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
+		os.system('Rscript {}/visualize_main_region.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations') ) )
+		# check_call(['Rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
+		# check_call(['Rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
+		print('\nAll outputs files written to {}\n'.format(os.getcwd()))
 		return
 
-
-	if UserInput_visualization_type == 'region_cluster':
+	if UserInput_visualization_type == 'group':
 		get_UniqueClustersWithinCluster(df_cr=df_cr, df_sr=df_sr, cluster_label_id=UserInput_cluster_label_id)
-		os.system('Rscript {}/visualize_cluster.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'results'), pjoin(os.getcwd(),'visualizations') ) )
+		os.system('Rscript {}/visualize_group.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations') ) )
 		return
 
 #------- endscript ------#

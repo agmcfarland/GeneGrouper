@@ -166,7 +166,7 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 
 	if len(r_params) != 0:
 		chunk_r_params_input = chunks(l=r_params, n=10)
-		print('MESSAGE: extracting metadata for {} genomes'.format(len(r_params)))
+		print('Extracting metadata for {} genomes'.format(len(r_params)))
 		start_t = time.time()
 		df_meta = pd.DataFrame()
 		with Pool(processes=UserInput_processes) as p:
@@ -175,7 +175,7 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 		print((time.time()-start_t)/60)
 
 	else:
-		print('GOOD MESSAGE: all files already have metadata extracted')
+		print('All files already have metadata extracted')
 
 
 
@@ -194,7 +194,7 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 	update_sql_index = False
 	if len(r_params) != 0:
 
-		print('MESSAGE: extracting features for {} genomes'.format(len(r_params)))
+		print('Extracting features for {} genomes'.format(len(r_params)))
 		start_t = time.time()
 		chunk_r_params_input = chunks(l=r_params, n=100) # Use a chunking strategy to reduce the memory consumption caused by having large pandas dataframes
 		for chunk_r in chunk_r_params_input:
@@ -207,7 +207,7 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 		update_sql_index = True
 
 	else:
-		print('GOOD MESSAGE: all files already have features extracted')
+		print('All files already have features extracted')
 
 
 	## remove df_meta and df_feat dataframes from memory ##
@@ -223,9 +223,9 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 			c = conn.cursor()
 			c.execute('CREATE INDEX assembly_id_index on gb_features(assembly_id)')
 			conn.commit()
-			print('MESSAGE: making assembly_id into index for gb_features')
+			print('Making assembly_id into index for gb_features')
 		except:
-			print('MESSAGE: did not update gb_features index')
+			print('Did not update gb_features index')
 			pass
 
 
@@ -240,14 +240,14 @@ def BuildGenomeDatabase(UserInput_main_dir, UserInput_genome_inputs_dir, UserInp
 
 	if len(files_to_blastdb) != 0:
 
-		print('MESSAGE: making blast database for {} genomes'.format(len(r_params)))
+		print('Making blast database for {} genomes'.format(len(r_params)))
 		r_params = [[b,'assemblies','blast_database'] for b in files_to_blastdb]
 		start_t = time.time()
 		with Pool(processes=UserInput_processes) as p:
 			p.starmap(make_BlastDatabase, r_params[:])
 		print((time.time()-start_t)/60)
 	else:
-		print('GOOD MESSAGE: all files already have blast databases constructed')
+		print('All files already have blast databases constructed')
 
 
 	conn.close()

@@ -13,7 +13,7 @@ def change_ToWorkingDirectory(directory_name):
 	General function for changing directory to OUTPUT_FILES_DIR
 	'''
 	os.chdir(directory_name)
-	print('\nGOOD MESSAGE: changing working directory to \n{}\n'.format(directory_name))
+	print('Changing working directory to \n{}\n'.format(directory_name))
 
 
 def make_OutputDirectory(new_directory):
@@ -21,16 +21,16 @@ def make_OutputDirectory(new_directory):
 	General function for making new output dir
 	'''
 	if os.path.exists(new_directory) == False:
-		print('GOOD MESSAGE: making {} directory'.format(new_directory))
+		print('Making {} directory'.format(new_directory))
 		os.mkdir(new_directory)
 	else:
-		print('MESSAGE: directory {} already exists.'.format(new_directory))
+		print('Making {} already exists.'.format(new_directory))
 
 def merge_ManyFiles(input_filepath,output_filepath,wildcard_search,output_filename):
 	'''
 	merge thousands of files. flexible for input/output directory 
 	'''
-	print('GOOD MESSAGE: merging all files with pattern {} and outputting to filename {}'.format(wildcard_search,output_filename))
+	print('Merging all files with pattern {} and outputting to filename {}'.format(wildcard_search,output_filename))
 	input_wildcard_search_path = pjoin(input_filepath,wildcard_search)
 	output_filename_path = pjoin(output_filepath,output_filename)
 	system_command = 'find {} -type f -exec cat {{}} \; > {}'.format(input_wildcard_search_path,output_filename_path)

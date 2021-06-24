@@ -217,7 +217,7 @@ def ClusterRegionSeqs(
 	avablast_orfs = set(df_ava['qseqid'].unique().tolist())
 	intersection_orfs = list(all_orfs.difference(avablast_orfs))
 	df_intersection_orfs = pd.DataFrame({'ortho_cluster_members':intersection_orfs})
-	print('MESSAGE: {} sequences not in AVA blast output'.format(len(df_intersection_orfs)))
+	print('{} sequences not in AVA blast output'.format(len(df_intersection_orfs)))
 
 
 	## Cluster ava blast results using MCL ##
@@ -238,14 +238,14 @@ def ClusterRegionSeqs(
 	change_ToWorkingDirectory(directory_name = pjoin(UserInput_main_dir,UserInput_output_dir_name))
 	conn = sql.connect('seed_results.db')
 	df_infval.to_sql(name='full_mcl_results',con=conn, if_exists='replace',index_label='locus_tag',index=False)
-	df_infval.to_csv(pjoin('results','full_mcl_results.csv'),index=False)
+	df_infval.to_csv(pjoin('internal_data','full_mcl_results.csv'),index=False)
 
 	## Store the "best" results: currently the max diversity
 	selected_i_val = filter_MCLOorthos(df=df_infval, UserInput_ortho_select_method=UserInput_ortho_select_method) 
 	df_infval = df_infval[df_infval['i_val'] == str(selected_i_val)]
 	df_infval = df_infval.groupby('orf_id').first().reset_index()
 	df_infval.to_sql(name='select_mcl_results',con=conn, if_exists='replace',index_label='locus_tag',index=False)
-	df_infval.to_csv(pjoin('results','select_mcl_results.csv'),index=False)
+	df_infval.to_csv(pjoin('internal_data','select_mcl_results.csv'),index=False)
 
 
 	## remove df_meta and df_feat dataframes from memory ##

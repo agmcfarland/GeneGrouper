@@ -23,7 +23,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage, cut_tree
 import subprocess
 from subprocess import DEVNULL, STDOUT, check_call
 
-def cluster_DBSCAN(jac_dist, table_output_suffix):
+def cluster_DBSCAN(jac_dist, table_output_suffix, min_group_size):
 	'''
 	Run dbscan on a precomputed jaccard distance matrix. 
 	Run through step-wise increments of epsilon values. Currently hardcoded to be 0-1 with 0.5 step increments.
@@ -32,13 +32,20 @@ def cluster_DBSCAN(jac_dist, table_output_suffix):
 	'''
 	# cluster and extract cluster label assignments
 
+	if min_group_size == 'default':
+		min_group_size = np.log(len(jac_dist))
+	else:
+		min_group_size = int(min_group_size)
+
+	print('Using a minimum group size of {}'.format(min_group_size))
+
 	cluster_label_assignments = {}
 	cluster_stats=[]
 	# eps_val_list=[round(n,2) for n in np.arange(0.05,1,0.05)]
 	eps_val_list=[round(n,2) for n in np.arange(0.02,1,0.02)]
 	for x, eps_val in enumerate(eps_val_list):
 		#
-		db = DBSCAN(eps=eps_val,min_samples=np.log(len(jac_dist)),metric='precomputed').fit(jac_dist)
+		db = DBSCAN(eps=eps_val,min_samples=min_group_size,metric='precomputed').fit(jac_dist)
 		core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 		core_samples_mask[db.core_sample_indices_] = True
 		labels = db.labels_
@@ -72,10 +79,10 @@ def cluster_DBSCAN(jac_dist, table_output_suffix):
 
 	## Save two tables: the clustering statistic results and the labels for each of the clusters
 	df_cluster_stats = pd.DataFrame(cluster_stats)
-	df_cluster_stats.to_csv(pjoin('results','dbscan_cluster_statistics{}.csv'.format(table_output_suffix)),index=False)
+	df_cluster_stats.to_csv(pjoin('internal_data','dbscan_cluster_statistics{}.csv'.format(table_output_suffix)),index=False)
 
 	df_cluster_labels = pd.DataFrame(cluster_label_assignments)
-	df_cluster_labels.to_csv(pjoin('results','dbscan_cluster_labels{}.csv'.format(table_output_suffix)),index=False)
+	df_cluster_labels.to_csv(pjoin('internal_data','dbscan_cluster_labels{}.csv'.format(table_output_suffix)),index=False)
 
 	# check for case where only 1 cluster in across all tested eps values. if this is true, then return the lowest tested eps value as the 'best' value
 	if df_cluster_stats['cali_score'].sum() == 0:
@@ -170,7 +177,8 @@ def recluster_UnclusteredRegions(df_lastcluster, max_cluster_val, recluster_roun
 def ClusterRegions(
 	UserInput_main_dir,
 	UserInput_output_dir_name,
-	UserInput_reclustering_iterations
+	UserInput_reclustering_iterations,
+	UserInput_min_group_size
 	):
 	'''
 	'''
@@ -200,7 +208,7 @@ def ClusterRegions(
 	df_m['ortho_cluster_id'] = df_m['ortho_cluster_id'].astype(int)
 
 	if len(df_m[df_m['ortho_cluster_id'].isnull()]) != 0:
-		print('BAD MESSAGE: some sequences dont have ortholog ids')
+		print('Some sequences dont have ortholog ids')
 
 	## construct a jaccard distance matrix ##
 	## create a presence absence table using region_id and ortho_cluster_id. cast the table so that it is binary ##
@@ -213,12 +221,12 @@ def ClusterRegions(
 	jac_dist = pairwise_distances(ortho_cluster_pa_array, metric = "jaccard")
 	## save distance matrix to contain labels and columns
 	df_jd = pd.DataFrame(jac_dist,columns=df_m.index.tolist(),index=df_m.index.tolist())
-	df_jd.to_csv(pjoin('results','seed_regions_jaccard_dist.csv'))
+	df_jd.to_csv(pjoin('internal_data','seed_regions_jaccard_dist.csv'))
 
 	print ('Clustering {} regions'.format(len(jac_dist)))
 	## Run DBSCAN on jaccard distance using different epsilon values ##
 	## Returns info on clustering quality, statistics, and for the "best" cluster, dissimilarities ##
-	df_cr = cluster_DBSCAN(jac_dist = jac_dist, table_output_suffix = '_0') 
+	df_cr = cluster_DBSCAN(jac_dist = jac_dist, table_output_suffix = '_0', min_group_size = UserInput_min_group_size) 
 
 
 	# intialize a dictionary with all -1 clustering assignments for all cluster regions indices.
@@ -254,10 +262,10 @@ def ClusterRegions(
 	df_clusterep = determine_ClusterRepresentative(df_cr=df_final_cluster,df_c=df_m)
 
 	## Store representative cluster labels in a new table in the seed_results sql database ##
-	## also write to results ##
+	## also write to internal_data ##
 	conn = sql.connect('seed_results.db')
 	df_clusterep.to_sql(name='dbscan_label_representatives',con=conn, if_exists='replace',index_label='seed_region_id',index=False)
-	df_clusterep.to_csv(pjoin('results','dbscan_label_representatives.csv'),index=False)
+	df_clusterep.to_csv(pjoin('internal_data','dbscan_label_representatives.csv'),index=False)
 
 	## remove large dataframes from memory ##
 	del [[df_jd,df_clusterep,ortho_cluster_pa_array,jac_dist]]
