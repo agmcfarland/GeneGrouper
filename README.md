@@ -258,7 +258,7 @@ visualize --visual_type main
 open ./example_search/psts_ecoli/visualizations/*
 ```
 
-Our visualizations show that four groups are created. All taxa except *Pseudomonas aeruginsa* have *pstSCAB/phoU*. However, genes surrounding the Pst gene cluster differe depending on taxa. This demonstrates the selective benefit of having an intact Pst gene cluster.
+Our visualizations show that four groups are created. All taxa except *Pseudomonas aeruginsa* have *pstSCAB/phoU*. However, genes surrounding the Pst gene cluster differ by taxa. This demonstrates the selective effect of maintaining an intact Pst gene cluster, while also demonstrating the phylogenetic influence of surrounding gene content.
 
 #### What about genes that do not have a stable gene content surrounding them? Let's search for a horizontally-transferred carbanem-resistant beta-lactamase. 
 
