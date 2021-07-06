@@ -1,5 +1,4 @@
 
-
 **GeneGrouper**  is a command-line tool that searches genomes for gene clusters containing a gene of interest and bins them into groups according to their gene content. GeneGrouper returns tables and visualizations that provide a population-level view of which gene clusters were found, which genomes they are in, which group each gene cluster belongs to, and how conserved the gene content of each region is relative to other members of that group.
 
 
@@ -135,7 +134,7 @@ GeneGrouper -d /path/to/main_directory -n gene_name \
 visualize --visual_type main
 ```
 
-## Examples of different searches using `visualize`
+## Examples of different searches using `find_regions`
 
 Search for regions to 2,000 bp upstream and 18,000 bp downstream of the seed gene.
 ```
