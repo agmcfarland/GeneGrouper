@@ -1,6 +1,7 @@
 
 
-**GeneGrouper** finds gene clusters (genes that are next to each other in the genome) that contain a gene of interest and separates them into groups of gene clusters based on the similarity of their gene content. The goal of GeneGrouper is to allow for understanding how gene content can vary, if only slightly, in up to thousands of similar gene clusters, and how those gene clusters are distributed in genomes.
+**GeneGrouper**  is a command-line tool that searches genomes for gene clusters containing a gene of interest and bins them into groups according to their gene content. GeneGrouper returns tables and visualizations that provide a population-level view of which gene clusters were found, which genomes they are in, which group each gene cluster belongs to, and how conserved the gene content of each region is relative to other members of that group.
+
 
 ## Table of contents 
 
@@ -29,16 +30,16 @@
 
 # 1. Why use GeneGrouper?
 
-GeneGrouper searches many genomes for a query gene using BLAST. When GeneGrouper finds a hit, it uses that gene as a seed and extracts the surrounding upstream and downstream genes **(Fig. 1 A-C)**. The extracted regions are then separated into groups of regions that share similar gene content **(Fig. 1 D)**. 
+GeneGrouper is used to understand what kinds of gene clusters are present in a set of genomes and how conserved their gene content is.
 
-In this way, GeneGrouper can show the user all regions that have different gene content (separated by group), and those that have similar gene content (found within groups) **(Fig. 1 D)**. 
+GeneGrouper searches a set of user-inputted genomes for a user-inputted query gene using BLAST. When GeneGrouper finds a hit, it extracts the upstream and downstream genes surrounding that seed gene **(Fig. 1 A-C)**. The extracted regions are then separated into groups of regions that have similar gene content using DBSCAN **(Fig. 1 D)**. 
 
-This approach can be used to find whether a specific gene cluster is found in all searched genomes, and whether each gene cluster that is found has all the expected genes, or whether there is unusual gene content.
+GeneGrouper's tabular and visual outputs show the user how many groups of unique regions were found and their architectures **(Fig. 1D middle)** , how many regions are in each group **(Fig 1.D group member counts)** , and how conserved the gene content is in each group **(Fig 1.D dissimilarity)**. Additional data provided by GeneGrouper shows which genomes carry which regions/groups, the gene content within the each region, and how similar the gene content in a region is relative to other regions in that group.
 
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-**Figure 1:** GeneGrouper overview (A-C). Panel D shows GeneGrouper results after searching 1,130 *Salmonella enterica* genomes for regions containing *pduA* homologs.
+**Figure 1:** GeneGrouper overview (A-C). Panel D shows GeneGrouper results after searching 1,130 *Salmonella enterica* genomes for regions containing *pduA* homologs. Left panel shows BLAST statistics for each seed gene for each region. Middle panel shows the unique groups identified and their architecture. Right panel shows gene content conservation of each region and the number of regions binned to each group.
 
 <br></br>
 
@@ -46,8 +47,7 @@ This approach can be used to find whether a specific gene cluster is found in al
 
 **Introduction**
 
-We wanted to know whether the catabolic Pdu gene cluster was present in 1,130 *Salmonella enterica*. This gene cluster is made up of 23 genes **(Fig. 2)**. We expected one copy of the intact Pdu gene cluster per genome.
-
+We wanted to know whether the catabolic Pdu gene cluster was present in 1,130 *Salmonella enterica* genomes. This gene cluster is made up of 23 genes **(Fig. 2)**. We expected one copy of the intact Pdu gene cluster per genome.
 
 <img src="docs/pdu_gene_cluster.png" alt="Pdu gene cluster figure" width=1000>
 
@@ -66,7 +66,7 @@ Other groups with different gene architectures from the Pdu gene cluster, but co
 
 #### Conclusions
 
-The group 0 boxplot of region dissimilarities **(Fig. 1 D right)** indicate 99% of genomes had a region that almost exactly matched the Pdu gene cluster, with gene content differences ranging between 0-0.25, with a median of 0. We can conclude that the Pdu gene cluster is a core component of most *S. enterica* genomes, and that some of these Pdu gene clusters are undergoing gene/gain loss. [We explore the implications of these results in our publication pre-print](https://doi.org/10.1101/2021.05.27.446007). 
+The group 0 box plot of region dissimilarities **(Fig. 1 D right)** indicates 99% of genomes had a region that almost exactly matched the Pdu gene cluster, with gene content differences ranging between 0-0.25, with a median of 0. We can conclude that the Pdu gene cluster is a core component of most *S. enterica* genomes, and that some of these Pdu gene clusters are undergoing gene/gain loss. [We explore the implications of these results in our publication pre-print](https://doi.org/10.1101/2021.05.27.446007). 
 
 
 # 3. Installation
@@ -113,6 +113,7 @@ See the section 'Creating a conda environment with all dependencies' for more de
 
 # 4. Usage
 GeneGrouper has two required inputs:
+
 1. A translated gene sequence in fasta format (with file extension .fasta/.txt)
 2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). 
 
@@ -193,7 +194,6 @@ GeneGrouper \
 build_database
 ```
 
-
 #### We will start for the Pdu gene cluster using the *pduA* gene in all the genomes 
 
 A 2,000 upstream and 18,000 downstream search region will be used. The blast hit threshold will be set to 30% identity and 80% coverage relative to our *pduA* query gene.
@@ -262,9 +262,9 @@ open ./example_search/psts_ecoli/visualizations/*
 
 Our visualizations show that four groups are created. All taxa except *Pseudomonas aeruginsa* have *pstSCAB/phoU*. However, genes surrounding the Pst gene cluster differ by taxa. This demonstrates the selective effect of maintaining an intact Pst gene cluster, while also demonstrating the phylogenetic influence of surrounding gene content.
 
-#### What about genes that do not have a stable gene content surrounding them? Let's search for a horizontally-transferred carbanem-resistant beta-lactamase. 
+#### What about genes that are not likely to have conserved gene content surrounding them? Let's search for a horizontally-transferred carbanem-resistant beta-lactamase. 
 
-Horizontally-transferred genes are typically in regions of the genome that have highly variable gene content, or linked to large segments of mobile DNA. We will set the minimum size of a group to just two gene regions to account for how dissimilar we expect gene regions to be.
+Horizontally-transferred genes are typically in regions of the genome that have highly variable gene content or linked to large segments of mobile DNA. We will set the minimum size of a group to just two gene regions to account for how dissimilar we expect gene regions to be.
 
 ```
 # start search
@@ -306,7 +306,6 @@ Each GeneGrouper region search produces the following output:
 │   │   ├── group_statistics_summmary.csv
 │   │   ├── representative_group_member_summary.csv
 │   │   ├── group_taxa_summary.csv
-│   │   ├── representative_group_member_summary.csv
 │   │   ├── group_regions.csv
 │   │   ├── group_region_seqs.faa
 │   │   ├── visualizations
@@ -372,14 +371,13 @@ Each GeneGrouper region search produces the following output:
 
 * The total number of genomes in a taxon searched (blue) and the number of genomes in that taxon that had at least one region extracted (red).
 
-#### inspect_group_<group id>.png
+#### inspect_group_< group id >.png
 
 * Three-part visualization of a group inspection output. The left panel shows the counts of each unique subgroup architecture. Middle panel shows the subgroup architecture. Right panel shows the dissimilarity of the subgroup gene content relative to subgroup 0, which is also the group representative.
 
 # 7. Creating a conda environment with all dependencies
 
-Instructions for creating a self-contained conda environment for GeneGrouper with all required dependencies.
-
+Here are instructions for creating a self-contained conda environment for GeneGrouper with all required dependencies.
 
 ```
 conda create -n GeneGrouper_env python=3.9
@@ -421,9 +419,11 @@ pip install GeneGrouper
 
 #### 1. Where can I download GenBank-format RefSeq genomes with file extension .gbff?
 
-There are acouple of simple options I use. Let's try them on downloading all clostridium genomes with complete- or chromosome-level assemblies.
+There are a couple of simple options I use. 
 
-**The first option** is to use [NCBI's Assembly Advanced Search Builder](https://www.ncbi.nlm.nih.gov/assembly/advanced)
+Let's try them by downloading all *Clostridium* genomes with complete- or chromosome-level assemblies.
+
+**Option one** is to use [NCBI's Assembly Advanced Search Builder](https://www.ncbi.nlm.nih.gov/assembly/advanced)
 
 * Using the search builder, select 'Organism' and input 'clostridium'. Next, select 'Assembly Level' and select both 'chromosome' and 'complete'. You should get the following code generated automatically:
 
@@ -435,7 +435,7 @@ There are acouple of simple options I use. Let's try them on downloading all clo
 
 * Make sure the source database says 'RefSeq' and file type is 'Genomic GenBank Format (.gbff)'
 
-**The second option** is to use [ncbi-refseq-download](https://github.com/kblin/ncbi-genome-download])
+**Option 2** is to use [ncbi-refseq-download](https://github.com/kblin/ncbi-genome-download])
 
 Use ```pip install ncbi-refseq-download``` to download the package.
 
@@ -460,8 +460,7 @@ This depends on your research question. If you want more distant homologs, then 
 
 Go to your genomes folder and add the new .gbff genomes. Afterwards run the following command:
 
-`GeneGrouper -g /path/to/gbff -d /path/to/output_directory \
-build_database`
+`GeneGrouper -g /path/to/gbff -d /path/to/output_directory build_database`
 
 This will update the database and all necessary files for GeneGrouper to use.
 
