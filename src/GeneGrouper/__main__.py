@@ -169,12 +169,12 @@ def main(args = None):
 	parser_fr.add_argument('-c', '--seed_coverage', type=int, default=90, help = 'Coverage cutoff for initial blast search. Default=90', metavar='')
 	parser_fr.add_argument('-hk', '--seed_hits_kept', type = int, default = None, help = 'Number of blast hits to keep. Default=None', metavar='')
 	parser_fr.add_argument('--min_group_size', default = 'default', help = 'The minimum number of gene regions to constitute a group. Default=ln(jaccard distance length)')
-	parser_fr.add_argument('-re', '--recluster_iterations', type = int, default = 0, help = 'Number of region re-clustering attempts after the initial clustering. Default=0', metavar='')
+	parser_fr.add_argument('-re', '--recluster_iterations', type = int, default = 0, help = 'Number of iterations to run DBSCAN on remaining ungrouped regions . Default=0', metavar='')
 	parser_fr.add_argument('--force', action='store_true', help = 'Flag to overwrite search name directory.')
 	parser_fr.set_defaults(func=run_RegionSearch)
 
 	# visualize_regions args
-	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeenGrouper outputs.')
+	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeneGrouper outputs.')
 	parser_mv.add_argument('--visual_type', type=str, choices = ['main','group'], default = 'main', help="choices: [main, group]. Use main for main visualizations. Use group to inspect specific group. Default=main", metavar='')
 	parser_mv.add_argument('--group_label', type=int, default=-1, help='The integer identifier of the group you wish to inspect. Default=-1',metavar='')
 	parser_mv.set_defaults(func=run_MakeVisualizations)

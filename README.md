@@ -126,7 +126,7 @@ This database can be searched using `find_regions` as many times as you want!
 #### Use `find_regions` to search for gene regions and output to a search-specific directory, 'gene_name'
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta 
+find_regions -f /path/to/query_gene.fasta 
 ```
 #### Use `visualize` to output visualizations of gene regions and their distribution among genomes and taxa
 ```
@@ -139,28 +139,28 @@ visualize --visual_type main
 Search for regions to 2,000 bp upstream and 18,000 bp downstream of the seed gene.
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta -us 2000 -ds 18000
+find_regions -f /path/to/query_gene.fasta -us 2000 -ds 18000
 ```
 Restrict regions to those containing a seed gene with >=70% identity and >=90% coverage to the query gene.
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta -i 70 -c 90
+find_regions -f /path/to/query_gene.fasta -i 70 -c 90
 ```
 
 Allow for up to one region extracted per genome.
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta -hk 1
+find_regions -f /path/to/query_gene.fasta -hk 1
 ```
 Repeat the region grouping procedure 2 times.
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta -re 2
+find_regions -f /path/to/query_gene.fasta -re 2
 ```
 Do all the above in one search
 ```
 GeneGrouper -d /path/to/main_directory -n gene_name \
-find_regions -f /path/to/region_search_directory.fasta -us 2000 -ds 18000 -i 70 -c 90 -hk 1 -re 2 
+find_regions -f /path/to/query_gene.fasta -us 2000 -ds 18000 -i 70 -c 90 -hk 1 -re 2 
 ```
 
 ## Examples of different group visualizations using `visualize`
