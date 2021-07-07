@@ -6,7 +6,7 @@
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-[See explanation of overview figure](https://github.com/agmcfarland/GeneGrouper/wiki#why-use-genegrouper)
+[See detailed explanation of overview figure](https://github.com/agmcfarland/GeneGrouper/wiki#why-use-genegrouper)
 
 [See an example application of GeneGrouper](https://github.com/agmcfarland/GeneGrouper/wiki#example-application)
 
