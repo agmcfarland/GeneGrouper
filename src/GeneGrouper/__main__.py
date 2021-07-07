@@ -150,8 +150,8 @@ def main(args = None):
 	# add common args to parser
 	parser.add_argument('-d', '--project_directory', type=str, default=os.getcwd(), help = 'Main directory to contain the base files used for region searching and clustering. Default current directory.', metavar='')
 	parser.add_argument('-n', '--search_name', type=str, default = 'region_search', help = 'Name of the directory to contain search-specific results. Default region_search', metavar='')
-	parser.add_argument('-g', '--genomes_directory', type=str, default=pjoin(os.getcwd(),'genomes'), help = 'Directory containing genbank-file format genomes with the suffix .gbff. Default genomes.', metavar='')
-	parser.add_argument('-t', '--threads', type=int, default= mp.cpu_count(), help = 'Number of threads to use', metavar='')
+	parser.add_argument('-g', '--genomes_directory', type=str, default=pjoin(os.getcwd(),'genomes'), help = 'Directory containing genbank-file format genomes with the suffix .gbff. Default ./genomes.', metavar='')
+	parser.add_argument('-t', '--threads', type=int, default= mp.cpu_count(), help = 'Number of threads to use. Default all threads.', metavar='')
 
 	# make subparser
 	subparsers = parser.add_subparsers(title='subcommands', description ='Valid subcommands', help = 'sub-command help', dest='command')
@@ -168,7 +168,7 @@ def main(args = None):
 	parser_fr.add_argument('-i', '--seed_identity', type=int, default=60, help = 'Identity cutoff for initial blast search. Default=60', metavar='')
 	parser_fr.add_argument('-c', '--seed_coverage', type=int, default=90, help = 'Coverage cutoff for initial blast search. Default=90', metavar='')
 	parser_fr.add_argument('-hk', '--seed_hits_kept', type = int, default = None, help = 'Number of blast hits to keep. Default=None', metavar='')
-	parser_fr.add_argument('--min_group_size', default = 'default', help = 'The minimum number of gene regions to constitute a group. Default=ln(jaccard distance length)')
+	parser_fr.add_argument('--min_group_size', default = 'default', help = 'The minimum number of gene regions to constitute a group. Default=ln(jaccard distance length)', metavar='')
 	parser_fr.add_argument('-re', '--recluster_iterations', type = int, default = 0, help = 'Number of iterations to run DBSCAN on remaining ungrouped regions . Default=0', metavar='')
 	parser_fr.add_argument('--force', action='store_true', help = 'Flag to overwrite search name directory.')
 	parser_fr.set_defaults(func=run_RegionSearch)
