@@ -1,5 +1,5 @@
 
-**GeneGrouper** is a command-line tool that searches a set of genomes for any gene cluster that contains a gene of interest. Subsequently, all gene clusters are binned into groups according to their gene content similarity. Outputs provide the user with a population-level overview of gene cluster group distribution and gene content variation.
+**GeneGrouper** is a command-line tool that searches a set of genomes for any gene cluster containing gene of interest. Subsequently, all gene clusters are binned into groups according to their gene content similarity. Outputs provide the user with a population-level overview of gene cluster group distribution and gene content variation.
 
 ---
 
