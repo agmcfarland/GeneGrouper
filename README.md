@@ -54,7 +54,7 @@ GeneGrouper -d /path/to/main_directory -n search_results \
 visualize \
 --visual_type group
 ```
-[See advanced usage examples]()
+[See advanced usage examples](https://github.com/agmcfarland/GeneGrouper/wiki/Advanced-usage)
 
 [See tutorial with provided example data](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
 
