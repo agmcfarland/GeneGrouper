@@ -3,16 +3,19 @@
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-[See explanation of overview figure](https://github.com/agmcfarland/GeneGrouper/wiki/Overview#Why-use-GeneGrouper?)
-[See an example application of GeneGrouper]()
-[See FAQs]()
+[See explanation of overview figure](https://github.com/agmcfarland/GeneGrouper/wiki#why-use-genegrouper)
+
+[See an example application of GeneGrouper](https://github.com/agmcfarland/GeneGrouper/wiki#example-application)
+
+[See FAQs](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions)
 
 # Installation
 
 ```pip install GeneGrouper```
 
-[See dependencies]()
-[See creating a conda environment with all GeneGrouper dependencies installed]()
+[See dependencies](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)
+
+[See creating a conda environment with all GeneGrouper dependencies installed](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#creating-a-conda-environment-with-all-dependencies)
 
 # Inputs
 
@@ -20,7 +23,7 @@
 
 1. A translated gene sequence in fasta format (with file extension .fasta/.txt)
 
-2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See options for how to download many RefSeq genomes at a time.]()
+2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See options for how to download many RefSeq genomes at a time.](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions#1-where-can-i-download-genbank-format-refseq-genomes-with-file-extension-gbff)
 
 # Basic usage
 
@@ -49,7 +52,8 @@ visualize \
 --visual_type group
 ```
 [See advanced usage examples]()
-[See tutorial with provided example data]()
+
+[See tutorial with provided example data](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
 
 
 # Outputs
@@ -66,7 +70,7 @@ Each ```region_search``` outputs:
 
 **One** additional visualization per group provided the ```visualize --visual_type group group_label <n>``` is supplied, where ```<n>``` is the name of the group label.  
 
-[See complete output file descriptions]()
+[See complete output file descriptions](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
 Each search will have the following file structure
 
