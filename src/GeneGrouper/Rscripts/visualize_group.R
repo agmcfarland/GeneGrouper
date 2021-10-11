@@ -9,6 +9,13 @@ library(dplyr)
 library(gggenes)
 library(groupdata2)
 
+packageVersion("reshape")
+packageVersion("ggplot2")
+packageVersion("cowplot")
+packageVersion("dplyr")
+packageVersion("gggenes")
+packageVersion("groupdata2")
+
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]
 visualizations_dir <- args[2]

@@ -75,7 +75,7 @@ Each ```region_search``` outputs:
 
 [See complete output file descriptions](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
-Each search will have the following file structure
+Each search and visualization will have the following file structure. Files under `visualizations` may differ.
 
 ```
 ├── main_directory
@@ -90,6 +90,7 @@ Each search will have the following file structure
 │   │   │   ├── groups_by_taxa.png
 │   │   │   ├── taxa_searched.png
 │   │   │   ├── inspect_group_-1.png
+│   │   │   ├── representative_seed_phylogeny.png
 │   │   ├── internal_data
 │   │   ├── seed_results.db
 ```
@@ -120,7 +121,8 @@ usage: GeneGrouper [-h] [-d] [-n] [-g] [-t]
                         GeneGrouper
     find_regions        Find regions given a translated gene and a set of
                         genomes
-    visualize           Visualize GeneGrouper outputs.
+    visualize           Visualize GeneGrouper outputs. Three visualization options are provided.
+                        Check the --visual_type help description.
 ```
 
 ### Subcommand flags
@@ -159,9 +161,15 @@ usage: GeneGrouper find_regions [-h] -f  [-us] [-ds] [-i] [-c] [-hk] [--min_grou
 ```
 usage: GeneGrouper visualize [-h] [--visual_type] [--group_label]
 
-  -h, --help      show this help message and exit
-  --visual_type   choices: [main, group]. Use main for main visualizations. Use group to inspect specific group. Default=main
-  --group_label   The integer identifier of the group you wish to inspect. Default=-1
+  --visual_type      Choices: [main, group, tree]. Use main for main visualizations. Use group to
+                     inspect specific group. Use tree for a phylogenetic tree of representative
+                     seed sequencess. Default=main
+  --group_label      The integer identifier of the group you wish to inspect. Default=-1
+  --image_format     Choices: [png,svg]. Output image format. Use svg if you want to edit the
+                     images. Default=png.
+  --tip_label_type   Choices: [full, group]. Use full to include the sequence ID followed by group
+                     ID. Use group to only have the group ID. Default=full
+  --tip_label_size   Specify the tip label size in the output image. Default=2
 ```
 
 

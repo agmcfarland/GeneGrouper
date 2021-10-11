@@ -9,6 +9,10 @@ library(ggplot2)
 library(ggtree)
 library(cowplot)
 
+packageVersion("ggtree")
+packageVersion("ape")
+packageVersion("phytools")
+
 
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]

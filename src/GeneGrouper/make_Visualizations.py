@@ -255,17 +255,6 @@ def MakeVisualizations(
 
 #------- endscript ------#
 
-# os.chdir('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test2/mexb')
-
-
-# UserInput_script_path = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/GeneGrouper/GeneGrouper/src/GeneGrouper/Rscripts'
-# UserInput_image_format = 'png'
-# UserInput_tip_label_type = 'full'
-# UserInput_tip_label_size = 3
-
-
-# os.system('Rscript {}/visualize_tree.R {} {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format,  UserInput_tip_label_size))
-
 
 
 

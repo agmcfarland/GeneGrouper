@@ -177,7 +177,7 @@ def main(args = None):
 	parser_fr.set_defaults(func=run_RegionSearch)
 
 	# visualize_regions args
-	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeneGrouper outputs. Three visualization optiosn are provided. Check the --visual_type help description.')
+	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeneGrouper outputs. Three visualization options are provided. Check the --visual_type help description.')
 	parser_mv.add_argument('--visual_type', type=str, choices = ['main','group','tree'], default = 'main', help="Choices: [main, group, tree]. Use main for main visualizations. Use group to inspect specific group. Use tree for a phylogenetic tree of representative seed sequencess. Default=main", metavar='')
 	parser_mv.add_argument('--group_label', type=int, default=-1, help='The integer identifier of the group you wish to inspect. Default=-1',metavar='')
 	parser_mv.add_argument('--image_format', type=str, choices = ['png','svg'], default='png', help='Choices: [png,svg]. Output image format. Use svg if you want to edit the images. Default=png.',metavar='')
