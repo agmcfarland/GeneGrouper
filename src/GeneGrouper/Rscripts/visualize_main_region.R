@@ -1,6 +1,6 @@
 
 
-packages <- c("reshape", "ggplot2", "cowplot", "dplyr", "gggenes", "groupdata2")
+packages <- c("reshape", "ggplot2", "cowplot", "dplyr", "gggenes", "groupdata2", "svglite")
 install.packages(setdiff(packages, rownames(installed.packages()))) 
 
 library(reshape)
@@ -9,21 +9,24 @@ library(cowplot)
 library(dplyr)
 library(gggenes)
 library(groupdata2)
+library(svglite)
 
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]
 visualizations_dir <- args[2]
+image_format <- args[3]
 
 setwd(results_dir)
 
 ## Troubleshooting ##
-<<<<<<< Updated upstream
-#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test1/pdua/results') #debugging
-#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test1/pdua/visualizations' #debugging
-=======
-#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test1/mexb/results') #debugging
-#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test1/mexb/visualizations' #debugging
->>>>>>> Stashed changes
+
+#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test2/pdua/results') #debugging
+#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset2/test2/pdua/visualizations' #debugging
+
+#setwd('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test2/mexb/internal_data') #debugging
+#visualizations_dir <- '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test2/mexb/visualizations' #debugging
+#image_format <- 'svg'
+
 ## ## ## ## ## ## ## ##
 
 # dataframe with scaling parameters for each
@@ -36,8 +39,6 @@ df_scaling <- data.frame('unique_region_count' = c(10, 20, 30, 40 ),
                          'v_gtext2_vjust' = c(.3, .3, .3, .6), # pseudo gene highlight  vjust
                          'v_gtext2_size' = c(4, 4, 4, 4) ## pseudo gene highlight  size
                          )
-
-
 
 
 #### Main visualization prepare ####
@@ -121,8 +122,8 @@ for (ch in unique(df_chunk_order$chunk_group)){
           axis.text.y=element_text(size=15,face='bold'),
           #axis.text.y=element_blank(),
           strip.background = element_rect(fill = "transparent", colour = NA),
-          panel.background =  element_rect(fill = "transparent", colour = NA),#element_blank(),
-          plot.background = element_rect(fill = "transparent", colour = NA),#element_blank()
+          panel.background =  element_rect(fill = "transparent", colour = NA),
+          plot.background = element_rect(fill = "white"),#, colour = NA),#element_blank()
           )+
     scale_y_discrete(#labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(region_order=paste(region_order,'. c',dbscan_label,sep=''))%>%select(region_order)%>%pull(),
       labels = df_chunk_order%>%filter(chunk_group==ch)%>%mutate(region_order=paste('g',dbscan_label,sep=''))%>%select(region_order)%>%pull(),
@@ -194,7 +195,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
   
   
   p7 <- plot_grid(p3_ggid,p1_ggregions,p2_ggdis,align='hv',nrow=1,rel_widths = c(0.25,0.5,0.25), axis='bt')
-  save_plot(paste(visualizations_dir,'/group_summary_', ch,'.png',sep='') ,p7,base_height=8,base_aspect_ratio = 2)
+  save_plot(paste(visualizations_dir,'/group_summary_', ch,'.',image_format,sep='') ,p7,base_height=8,base_aspect_ratio = 2)
 }
 
 
@@ -224,7 +225,7 @@ p1_taxafound <- ggplot(df_meta, aes(x=genus_dummy,y=value,fill=variable))+
         strip.background = element_blank(),
         strip.text.x = element_blank())+
   ylab(label='Count')
-save_plot(paste(visualizations_dir,'/taxa_searched.png',sep=''),p1_taxafound,base_height=8,base_aspect_ratio = 2)
+save_plot(paste(visualizations_dir,'/taxa_searched','.',image_format,sep=''),p1_taxafound,base_height=8,base_aspect_ratio = 2)
 
 
 #### Plot percentage of hits per cluster per taxa ####
@@ -298,7 +299,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
     
   
   p8 <- plot_grid(p3_region_taxa_breakdown, p4_empty, align='hv',nrow=1,rel_widths = c(0.98,0.05), axis='bt')
-  save_plot(paste(visualizations_dir,'/groups_by_taxa_',ch,'.png',sep=''),p8,base_height=8,base_aspect_ratio = 2)
+  save_plot(paste(visualizations_dir,'/groups_by_taxa_',ch,'.',image_format,sep=''),p8,base_height=8,base_aspect_ratio = 2)
   
 }
 

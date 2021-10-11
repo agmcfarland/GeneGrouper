@@ -1,5 +1,5 @@
 
-packages <- c("reshape", "ggplot2", "cowplot", "dplyr", "gggenes", "groupdata2")
+packages <- c("reshape", "ggplot2", "cowplot", "dplyr", "gggenes", "groupdata2", "svglite")
 install.packages(setdiff(packages, rownames(installed.packages()))) 
 
 library(reshape)
@@ -12,6 +12,7 @@ library(groupdata2)
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]
 visualizations_dir <- args[2]
+image_format <- args[3]
 
 setwd(results_dir)
 
@@ -107,8 +108,8 @@ for (ch in unique(df_chunk_order$chunk_group)){
           axis.title.y=element_blank(),
           axis.text.y=element_text(size=15, face='bold'),
           strip.background = element_rect(fill = "transparent", colour = NA),
-          panel.background =  element_rect(fill = "transparent", colour = NA),#element_blank(),
-          plot.background = element_rect(fill = "transparent", colour = NA)#element_blank()
+          panel.background =  element_rect(fill = "transparent", colour = NA),
+          plot.background = element_rect(fill = "white"),#, colour = NA),#element_blank()
     )+
     xlab(label='Normalized gene position (bp)')+
     scale_y_discrete(
@@ -166,7 +167,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
   p1mgg <- plot_grid(p2_cwc_ggdc,p1_cwc_ggregions,p3_cwc_ggdc,align='hv',nrow=1,rel_widths = c(1/4,1/2,1/4))
   
 
-  save_plot(paste(visualizations_dir,'/inspect_group_',dbscan_label_inspected,'_',ch,'.png',sep=''),p1mgg,base_height=8,base_aspect_ratio = 2)
+  save_plot(paste(visualizations_dir,'/inspect_group_',dbscan_label_inspected,'_',ch,'.',image_format,sep=''),p1mgg,base_height=8,base_aspect_ratio = 2)
   
   }
 

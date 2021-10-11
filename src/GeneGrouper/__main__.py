@@ -131,7 +131,10 @@ def run_MakeVisualizations(args):
 		UserInput_output_dir_name = args.search_name,
 		UserInput_cluster_label_id = args.group_label,
 		UserInput_visualization_type = args.visual_type,
-		UserInput_script_path = pjoin(script_path,'Rscripts')
+		UserInput_script_path = pjoin(script_path,'Rscripts'),
+		UserInput_image_format = args.image_format,
+		UserInput_tip_label_type = args.tip_label_type,
+		UserInput_tip_label_size = args.tip_label_size
 		)
 
 	print('\nFinished making visualization\nTotal time (m): {}'.format((time.time()-start_t)/60))
@@ -174,9 +177,13 @@ def main(args = None):
 	parser_fr.set_defaults(func=run_RegionSearch)
 
 	# visualize_regions args
-	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeneGrouper outputs.')
-	parser_mv.add_argument('--visual_type', type=str, choices = ['main','group'], default = 'main', help="choices: [main, group]. Use main for main visualizations. Use group to inspect specific group. Default=main", metavar='')
+	parser_mv = subparsers.add_parser('visualize', help ='Visualize GeneGrouper outputs. Three visualization optiosn are provided. Check the --visual_type help description.')
+	parser_mv.add_argument('--visual_type', type=str, choices = ['main','group','tree'], default = 'main', help="Choices: [main, group, tree]. Use main for main visualizations. Use group to inspect specific group. Use tree for a phylogenetic tree of representative seed sequencess. Default=main", metavar='')
 	parser_mv.add_argument('--group_label', type=int, default=-1, help='The integer identifier of the group you wish to inspect. Default=-1',metavar='')
+	parser_mv.add_argument('--image_format', type=str, choices = ['png','svg'], default='png', help='Choices: [png,svg]. Output image format. Use svg if you want to edit the images. Default=png.',metavar='')
+	parser_mv.add_argument('--tip_label_type', type=str, choices = ['full','group'], default='full', help='Choices: [full, group]. Use full to include the sequence ID followed by group ID. Use group to only have the group ID. Default=full',metavar='')
+	parser_mv.add_argument('--tip_label_size', type=int, default=2, help='Specify the tip label size in the output image. Default=2',metavar='')
+
 	parser_mv.set_defaults(func=run_MakeVisualizations)
 
 	args = parser.parse_args()

@@ -5,11 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="GeneGrouper",
-<<<<<<< Updated upstream
-	version="0.0.2",
-=======
-	version="0.0.3",
->>>>>>> Stashed changes
+	version="1.0.0",
 	author="Alexander G. McFarland",
 	author_email="alexandermcfarland2022@u.northwestern.edu",
 	description="Find and cluster genomic regions containing a seed gene",

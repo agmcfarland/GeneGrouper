@@ -178,6 +178,39 @@ def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 
 
 
+def retrieve_RepresentativeSeeds(tip_label_type, df_cr):
+	'''
+	Get the amino acid sequence of each representative seed EXCEPT for the group -1 representative
+	'''
+	# pd.set_option('display.max_columns', None)
+	# tip_label_type = 'full'
+	# os.chdir('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test2/mexb')
+
+	# get just the representative sequences into a new df 
+	df_rep = df_cr[(df_cr['label_representative'] == df_cr['full_index_pos']) & (df_cr['dbscan_label'] != -1 )][['dbscan_label','seed_region_id']]
+
+	# create tip_label column with specified content
+	if tip_label_type == 'full':
+		df_rep['tip_label'] = df_rep['seed_region_id'] + '--g' + df_cr['dbscan_label'].astype(int).astype(str)
+	if tip_label_type == 'group':
+		df_rep['tip_label'] = 'g'+df_rep['dbscan_label'].astype(int).astype(str)
+
+	# write representative sequences to faa file
+	with open(pjoin('internal_data','representative_seed_sequences.faa'), 'w') as outfile:
+		for record in SeqIO.parse('group_region_seqs.faa', 'fasta'):
+			if record.id in df_rep['seed_region_id'].tolist():
+				tip_entry = df_rep[df_rep['seed_region_id'] == record.id]['tip_label'].item()
+				outfile.write('>{}\n'.format(tip_entry))
+				outfile.write('{}\n'.format(str(record.seq)))
+
+
+def create_RepresentativeSeedTree():
+	'''
+	Run mafft and fasttree on the representative seed sequences
+	'''
+	os.system('mafft {} > {}'.format(pjoin('internal_data','representative_seed_sequences.faa'), pjoin('internal_data','representative_seed_sequences.aln')))
+	os.system('FastTree {} > {}'.format(pjoin('internal_data','representative_seed_sequences.aln'), pjoin('internal_data','representative_seed_sequences.nwk')))
+
 
 #------- start script ------#
 def MakeVisualizations(
@@ -185,7 +218,10 @@ def MakeVisualizations(
 	UserInput_output_dir_name,
 	UserInput_cluster_label_id,
 	UserInput_visualization_type,
-	UserInput_script_path):
+	UserInput_script_path,
+	UserInput_image_format,
+	UserInput_tip_label_type,
+	UserInput_tip_label_size):
 	'''
 	'''
 	change_ToWorkingDirectory(directory_name = pjoin(UserInput_main_dir,UserInput_output_dir_name))
@@ -193,22 +229,42 @@ def MakeVisualizations(
 	df_sr = pd.read_csv(pjoin('internal_data','full_region.csv'))
 	df_cr = pd.read_sql_query("SELECT * from dbscan_label_representatives", conn)
 
+	# main visualization
 	if UserInput_visualization_type == 'main':
 		print('Arranging clusters')
 		plot_RepresentativeRegions(df_sr=df_sr,df_cr=df_cr)
-		os.system('Rscript {}/visualize_main_region.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations') ) )
+		os.system('Rscript {}/visualize_main_region.R {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format ))
 		# check_call(['Rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
 		# check_call(['Rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
 		print('\nAll outputs files written to {}\n'.format(os.getcwd()))
 		return
 
+	## group visualization
 	if UserInput_visualization_type == 'group':
 		get_UniqueClustersWithinCluster(df_cr=df_cr, df_sr=df_sr, cluster_label_id=UserInput_cluster_label_id)
-		os.system('Rscript {}/visualize_group.R {} {}'.format(UserInput_script_path,pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations') ) )
+		os.system('Rscript {}/visualize_group.R {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format ))
+		return
+
+	## tree visualization
+	if UserInput_visualization_type == 'tree':
+		print('Making a phylogenetic tree from representative seed sequences')
+		retrieve_RepresentativeSeeds(tip_label_type=UserInput_tip_label_type, df_cr=df_cr)
+		create_RepresentativeSeedTree()
+		os.system('Rscript {}/visualize_tree.R {} {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format,  UserInput_tip_label_size))
 		return
 
 #------- endscript ------#
 
+# os.chdir('/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/gtr/testbed/dataset4/test2/mexb')
+
+
+# UserInput_script_path = '/Users/owlex/Dropbox/Documents/Northwestern/Hartmann_Lab/syntenease_project/GeneGrouper/GeneGrouper/src/GeneGrouper/Rscripts'
+# UserInput_image_format = 'png'
+# UserInput_tip_label_type = 'full'
+# UserInput_tip_label_size = 3
+
+
+# os.system('Rscript {}/visualize_tree.R {} {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format,  UserInput_tip_label_size))
 
 
 
