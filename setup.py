@@ -5,15 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="GeneGrouper",
-	version="1.0.0",
+	version="1.0.1",
 	author="Alexander G. McFarland",
 	author_email="alexandermcfarland2022@u.northwestern.edu",
 	description="Find and cluster genomic regions containing a seed gene",
 	long_description=long_description,
 	long_description_content_type="text/markdown",
-	url="https://github.com/pypa/sampleproject",
+	url="https://github.com/agmcfarland/GeneGrouper",
 	project_urls={
-		"Bug Tracker": "https://github.com/agmcfarland/GeneToRegions",
+		"Bug Tracker": "https://github.com/agmcfarland/GeneGrouper/issues",
 	},
 	classifiers=[
         "Programming Language :: Python :: 3",
@@ -23,7 +23,7 @@ setuptools.setup(
         "Topic :: Scientific/Engineering :: Bio-Informatics",
 	],
 	package_dir={"": "src"},
-	packages=setuptools.find_packages(where="src"), #exlude = ['*.egg-info', ]
+	packages=setuptools.find_packages(where="src", exclude=['docs','test_data']), #exlude = ['*.egg-info', ]
 	entry_points={
 		'console_scripts': ['GeneGrouper = GeneGrouper.__main__:main'], },
 	package_data={'GeneGrouper' : ['Rscripts/*']},

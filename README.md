@@ -1,5 +1,5 @@
 
-**GeneGrouper** is a command-line tool that searches a set of genomes for any gene cluster containing a gene of interest. All gene clusters are then binned into groups according to similarity in gene content. Qualitative and quantitative outputs provide a population-level understanding of how gene cluster groups are distributed and the variation in gene content within a group.
+[**GeneGrouper**](https://github.com/agmcfarland/GeneGrouper) is a command-line tool that searches a set of genomes for gene clusters containing a gene of interest. All gene clusters are then binned into groups according to their similarity in gene content. Qualitative and quantitative outputs provide a population-level view of how gene cluster groups are distributed and how varied gene content is within a group.
 
 
 ---
@@ -16,9 +16,11 @@
 
 ```pip install GeneGrouper```
 
+GeneGrouper has multiple dependences. Please make sure that you install them manually or follow our simple guide to create a self-contained conda environment for GeneGrouper.
+
 [See dependencies](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)
 
-[See creating a conda environment with all GeneGrouper dependencies installed](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#creating-a-conda-environment-with-all-dependencies)
+[See creating a conda environment with all GeneGrouper dependencies installed](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#creating-a-conda-environment-with-all-dependencies-and-genegrouper) **Recommended**
 
 # Inputs
 
@@ -165,7 +167,7 @@ usage: GeneGrouper visualize [-h] [--visual_type] [--group_label]
                      inspect specific group. Use tree for a phylogenetic tree of representative
                      seed sequencess. Default=main
   --group_label      The integer identifier of the group you wish to inspect. Default=-1
-  --image_format     Choices: [png,svg]. Output image format. Use svg if you want to edit the
+  --image_format     Choices: [png, svg]. Output image format. Use svg if you want to edit the
                      images. Default=png.
   --tip_label_type   Choices: [full, group]. Use full to include the sequence ID followed by group
                      ID. Use group to only have the group ID. Default=full

@@ -1,6 +1,6 @@
 
-packages <- c("ggplot2", "cowplot", "dplyr", "svglite", "ape","phytools","ggtree")
-install.packages(setdiff(packages, rownames(installed.packages()))) 
+packages <- c("ggplot2", "cowplot", "dplyr", "svglite", "ape","phytools")
+install.packages(setdiff(packages, rownames(installed.packages())),repos='https://cloud.r-project.org/') 
 
 library(ape)
 library(phytools)
@@ -8,11 +8,20 @@ library(dplyr)
 library(ggplot2)
 library(ggtree)
 library(cowplot)
+library(svglite)
 
+print('ggtree version')
 packageVersion("ggtree")
+print('phytools version')
 packageVersion("ape")
+print('phytools version')
 packageVersion("phytools")
-
+print('ggplot2 version')
+packageVersion("ggplot2")
+print('cowplot version')
+packageVersion("cowplot")
+print('dplyr version')
+packageVersion("dplyr")
 
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]

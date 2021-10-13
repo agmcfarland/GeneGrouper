@@ -1,7 +1,7 @@
 
 
 packages <- c("reshape", "ggplot2", "cowplot", "dplyr", "gggenes", "groupdata2", "svglite")
-install.packages(setdiff(packages, rownames(installed.packages()))) 
+install.packages(setdiff(packages, rownames(installed.packages())),repos='https://cloud.r-project.org/') 
 
 library(reshape)
 library(ggplot2)
@@ -10,6 +10,19 @@ library(dplyr)
 library(gggenes)
 library(groupdata2)
 library(svglite)
+
+print('reshape version')
+packageVersion("reshape")
+print('ggplot2 version')
+packageVersion("ggplot2")
+print('cowplot version')
+packageVersion("cowplot")
+print('dplyr version')
+packageVersion("dplyr")
+print('gggenes version')
+packageVersion("gggenes")
+print('groupdata2 version')
+packageVersion("groupdata2")
 
 args <-  commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]
