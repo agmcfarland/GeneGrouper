@@ -71,7 +71,7 @@ visualize \
 
 # Outputs
 
-Each ```region_search``` outputs:
+Each search with ```find_regions``` outputs:
 
 **Four** tabular files with quantitative and qualitative descriptions of grouping results. 
 
@@ -82,6 +82,8 @@ Each ```region_search``` outputs:
 **Three** main visualizations provided if the ```visualize --visual_type main``` command is used. 
 
 **One** additional visualization per group provided the ```visualize --visual_type group group_label <n>``` is supplied, where ```<n>``` is the name of the group label.  
+
+**One** phylogenetic tree using the seed gene from each group's representative using ```visualize --visual_type tree```
 
 [See complete output file descriptions](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
