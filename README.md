@@ -47,7 +47,7 @@ find_regions \
 #### Use `visualize` to output visualizations of group gene architectures and their distribution within genomes and taxa
 ```
 GeneGrouper -d /path/to/main_directory -n search_results \
-visualize
+visualize main
 ```
 
 #### Use `visualize --visual_type group` to inspect a GeneGrouper group more closely 
@@ -56,6 +56,14 @@ GeneGrouper -d /path/to/main_directory -n search_results \
 visualize \
 --visual_type group
 ```
+
+#### Use `visualize --visual_type tree` to make a phylogenetic tree of each group's seed gene
+```
+GeneGrouper -d /path/to/main_directory -n search_results \
+visualize \
+--visual_type tree
+```
+
 [See advanced usage examples](https://github.com/agmcfarland/GeneGrouper/wiki/Advanced-usage)
 
 [See tutorial with provided example data](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
