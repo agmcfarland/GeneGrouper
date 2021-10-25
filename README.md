@@ -44,10 +44,11 @@ GeneGrouper -d /path/to/main_directory -n search_results \
 find_regions \
 -f /path/to/query_gene.fasta
 ```
-#### Use `visualize` to output visualizations of group gene architectures and their distribution within genomes and taxa
+#### Use `visualize --visual_type main` to output visualizations of group gene architectures and their distribution within genomes and taxa
 ```
 GeneGrouper -d /path/to/main_directory -n search_results \
-visualize main
+visualize \
+--visual_type main
 ```
 
 #### Use `visualize --visual_type group` to inspect a GeneGrouper group more closely 
