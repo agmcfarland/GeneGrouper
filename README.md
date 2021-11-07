@@ -188,12 +188,10 @@ usage: GeneGrouper visualize [-h] [--visual_type] [--group_label]
 
 # Citation
 
-**Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper**
-
-Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann
-
-bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
+Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann, **Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper**, Bioinformatics, 2021;, btab752, https://doi.org/10.1093/bioinformatics/btab752
 
 # Contact
 
-Feel free to message me at alexandermcfarland2022@u.northwestern.edu or follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
+Please message me at alexandermcfarland2022@u.northwestern.edu 
+
+Follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
