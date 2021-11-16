@@ -14,13 +14,49 @@
 
 # Installation
 
+GeneGrouper can be installed using pip
+
 ```pip install GeneGrouper```
 
-GeneGrouper has multiple dependences. Please make sure that you install them manually or follow our simple guide to create a self-contained conda environment for GeneGrouper.
+[GeneGrouper has multiple dependences.]((https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)) Follow this simple guide to create a self-contained conda environment for GeneGrouper.
 
-[See dependencies](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)
+**Installing Python and bioinformatic dependencies for grouping**
 
-[See creating a conda environment with all GeneGrouper dependencies installed](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#creating-a-conda-environment-with-all-dependencies-and-genegrouper) **Recommended**
+```
+conda create -n GeneGrouper_env python=3.9
+
+source activate GeneGrouper_env #or try: conda activate GeneGrouper_env
+
+conda config --add channels defaults
+
+conda config --add channels bioconda
+
+conda config --add channels conda-forge
+
+pip install biopython scipy scikit-learn pandas matplotlib GeneGrouper
+
+conda install -c bioconda mcl blast mmseqs2 fasttree mafft
+```
+
+**Installing R and required packages for visualizations**
+
+```
+conda install -c conda-forge r-base=4.1.1 r-svglite r-reshape r-ggplot2 r-cowplot r-dplyr r-gggenes r-ape r-phytools r-BiocManager r-codetools
+
+# enter R environment
+R
+
+# install additional packages from CRAN
+install.packages('groupdata2',repos='https://cloud.r-project.org/', quiet=TRUE)
+
+# install additional packages from 
+BiocManager::install("ggtree")
+
+# quit
+q(save="no")
+```
+
+[For more information, see the installation wiki page](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies) **Recommended**
 
 # Inputs
 
