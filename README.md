@@ -64,7 +64,7 @@ q(save="no")
 
 1. A translated gene sequence in fasta format (with file extension .fasta/.txt)
 
-2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See options for how to download many RefSeq genomes at a time.](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions#1-where-can-i-download-genbank-format-refseq-genomes-with-file-extension-gbff)
+2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See instructions to download many RefSeq genomes at a time.](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions#1-where-can-i-download-genbank-format-refseq-genomes-with-file-extension-gbff)
 
 # Basic usage
 
