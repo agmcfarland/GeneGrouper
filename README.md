@@ -56,7 +56,7 @@ BiocManager::install("ggtree")
 q(save="no")
 ```
 
-[For more information, see the installation wiki page](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies) **Recommended**
+[For more information, see the installation wiki page](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies)
 
 # Inputs
 
