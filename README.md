@@ -14,13 +14,49 @@
 
 # Installation
 
+GeneGrouper can be installed using pip
+
 ```pip install GeneGrouper```
 
-GeneGrouper has multiple dependences. Please make sure that you install them manually or follow our simple guide to create a self-contained conda environment for GeneGrouper.
+[GeneGrouper has multiple dependences.]((https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)) Follow this simple guide to create a self-contained conda environment for GeneGrouper.
 
-[See dependencies](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)
+**Installing Python and bioinformatic dependencies for grouping**
 
-[See creating a conda environment with all GeneGrouper dependencies installed](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#creating-a-conda-environment-with-all-dependencies-and-genegrouper) **Recommended**
+```
+conda create -n GeneGrouper_env python=3.9
+
+source activate GeneGrouper_env #or try: conda activate GeneGrouper_env
+
+conda config --add channels defaults
+
+conda config --add channels bioconda
+
+conda config --add channels conda-forge
+
+pip install biopython scipy scikit-learn pandas matplotlib GeneGrouper
+
+conda install -c bioconda mcl blast mmseqs2 fasttree mafft
+```
+
+**Installing R and required packages for visualizations**
+
+```
+conda install -c conda-forge r-base=4.1.1 r-svglite r-reshape r-ggplot2 r-cowplot r-dplyr r-gggenes r-ape r-phytools r-BiocManager r-codetools
+
+# enter R environment
+R
+
+# install additional packages from CRAN
+install.packages('groupdata2',repos='https://cloud.r-project.org/', quiet=TRUE)
+
+# install additional packages from 
+BiocManager::install("ggtree")
+
+# quit
+q(save="no")
+```
+
+[For more information, see the installation wiki page](https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies)
 
 # Inputs
 
@@ -28,7 +64,7 @@ GeneGrouper has multiple dependences. Please make sure that you install them man
 
 1. A translated gene sequence in fasta format (with file extension .fasta/.txt)
 
-2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See options for how to download many RefSeq genomes at a time.](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions#1-where-can-i-download-genbank-format-refseq-genomes-with-file-extension-gbff)
+2. A folder containing RefSeq GenBank-format genomes (with the file extension .gbff). [See instructions to download many RefSeq genomes at a time.](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions#1-where-can-i-download-genbank-format-refseq-genomes-with-file-extension-gbff)
 
 # Basic usage
 
@@ -44,10 +80,11 @@ GeneGrouper -d /path/to/main_directory -n search_results \
 find_regions \
 -f /path/to/query_gene.fasta
 ```
-#### Use `visualize` to output visualizations of group gene architectures and their distribution within genomes and taxa
+#### Use `visualize --visual_type main` to output visualizations of group gene architectures and their distribution within genomes and taxa
 ```
 GeneGrouper -d /path/to/main_directory -n search_results \
-visualize main
+visualize \
+--visual_type main
 ```
 
 #### Use `visualize --visual_type group` to inspect a GeneGrouper group more closely 
@@ -187,12 +224,10 @@ usage: GeneGrouper visualize [-h] [--visual_type] [--group_label]
 
 # Citation
 
-**Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper**
-
-Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann
-
-bioRxiv 2021.05.27.446007; doi: https://doi.org/10.1101/2021.05.27.446007
+Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek, Curtis Huttenhower, Erica M Hartmann, **Density-based binning of gene clusters to infer function or evolutionary history using GeneGrouper**, Bioinformatics, 2021;, btab752, https://doi.org/10.1093/bioinformatics/btab752
 
 # Contact
 
-Feel free to message me at alexandermcfarland2022@u.northwestern.edu or follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
+Please message me at alexandermcfarland2022@u.northwestern.edu 
+
+Follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
