@@ -10,6 +10,8 @@ library(ggtree)
 library(cowplot)
 library(svglite)
 
+options(warn=-1)
+
 print('ggtree version')
 packageVersion("ggtree")
 print('phytools version')

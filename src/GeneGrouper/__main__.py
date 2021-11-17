@@ -1,14 +1,15 @@
 #!/usr/bin/env python
+
+import warnings
+warnings.simplefilter(action='ignore', category=UserWarning)
 	
 import os
 from os.path import join as pjoin
-import warnings
 import time
 import argparse
 import sys
 import multiprocessing as mp
 from multiprocessing import Pool
-
 
 mp.set_start_method("fork")
 global script_path
@@ -194,5 +195,7 @@ def main(args = None):
 
 if __name__ == '__main__':
 	sys.exit(main())
+
+#os.system('conda list --export > list.txt')
 
 

@@ -11,6 +11,8 @@ library(gggenes)
 library(groupdata2)
 library(svglite)
 
+options(warn=-1)
+
 print('reshape version')
 packageVersion("reshape")
 print('ggplot2 version')
@@ -204,7 +206,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
                      breaks = df_chunk_order%>%filter(chunk_group==ch)%>%select(dbscan_label)%>%pull(),
                      limits = rev)+
     ylab(label='Cluster label')+
-    xlab(label='% value relative to seed gene')
+    xlab(label='% value relative to query gene')
   
   
   p7 <- plot_grid(p3_ggid,p1_ggregions,p2_ggdis,align='hv',nrow=1,rel_widths = c(0.25,0.5,0.25), axis='bt')
@@ -225,7 +227,7 @@ df_meta$genus_dummy <- factor(df_meta$genus, levels=(unique(as.character(df_meta
 
 p1_taxafound <- ggplot(df_meta, aes(x=genus_dummy,y=value,fill=variable))+
   geom_bar(stat='identity',position='dodge')+
-  geom_text(data=df_meta,aes(x=genus_dummy,y=value+5,label=value,group=variable),size=5,position=position_dodge(width=0.75))+
+  geom_text(data=df_meta,aes(x=genus_dummy,y=value,label=value,group=variable),size=5,position=position_dodge(width=0.75), vjust=-.1)+
   theme_classic()+
   theme(legend.position='none',
         axis.title.x=element_blank(),

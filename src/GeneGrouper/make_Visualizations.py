@@ -129,6 +129,15 @@ def plot_RepresentativeRegions(df_sr, df_cr):
 def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 	'''
 	'''
+#troubleshooting
+# os.chdir('/Users/owlex/Downloads/gg_tutorial/example_search/mexb')
+
+
+# conn = sql.connect('seed_results.db')
+# df_sr = pd.read_csv(pjoin('internal_data','full_region.csv'))
+# df_cr = pd.read_sql_query("SELECT * from dbscan_label_representatives", conn)
+# cluster_label_id = 10
+
 	## subset for the cluster of interest
 	rep_list = df_cr[df_cr['dbscan_label']==cluster_label_id]['seed_region_id'].tolist()
 	df_jac = subset_SimilarityMatrix(rep_list=rep_list)
@@ -144,6 +153,14 @@ def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 		temp_list = df_mjac[ (df_mjac['seed_region_id'] == c) & (df_mjac['value'] == 0)]['variable'].tolist()
 		store_unique_cwc[c] = temp_list
 		[found_regions.append(c1) for c1 in temp_list if c1 not in found_regions]
+
+	## extract the index of subgroup representatives and gene clusters within them to a table
+	df_subind = pd.DataFrame(list(store_unique_cwc.values()), index=store_unique_cwc.keys())
+	df_subind['representative_subgroup'] = df_subind.index
+	df_subind = pd.melt(df_subind, id_vars=['representative_subgroup'])
+	df_subind = df_subind.drop(labels=['variable'],axis=1)
+	df_subind = df_subind.rename(columns={'value':'subgroup_member'})
+	df_subind = df_subind.dropna()
 		
 	## get counts of each unique region group
 	list(store_unique_cwc.keys())
@@ -175,6 +192,19 @@ def get_UniqueClustersWithinCluster(df_cr, df_sr, cluster_label_id):
 	df_cwc = df_cwc.merge(df_gggenes,on='locus_tag')
 	df_cwc = align_NormPositions(df_m=df_cwc)
 	df_cwc.to_csv(pjoin('internal_data','rtable_cwc_regions.csv'),index=None)
+
+	## save a copy of subgroup data in the subgroup folder with the cluster_label_id as suffix. This is for the user to use in downstream applications
+	df_subgroup_ref = df_cwc[['region_id','cwc_id']].drop_duplicates()
+	df_subgroup_ref = df_subgroup_ref.merge(df_subind, left_on='region_id',right_on='representative_subgroup')
+	df_subgroup_ref = df_subgroup_ref.drop(labels='region_id',axis=1)
+	# rename so it's easier for the user to know what columns mean
+	df_subgroup_ref = df_subgroup_ref.rename(columns={'cwc_id':'subgroup_id'})
+	df_cwc = df_cwc.rename(columns={'cwc_id':'subgroup_id'})
+
+	# if the subgroup folder doesn't exist, save it
+	make_OutputDirectory(new_directory='subgroups')
+	df_subgroup_ref.to_csv(pjoin('subgroups','subgroup_key_g{}.csv'.format(str(cluster_label_id))),index=None)
+	df_cwc.to_csv(pjoin('subgroups','subgroup_regions_g{}.csv'.format(str(cluster_label_id))),index=None)
 
 
 
@@ -233,6 +263,7 @@ def MakeVisualizations(
 	if UserInput_visualization_type == 'main':
 		print('Arranging clusters')
 		plot_RepresentativeRegions(df_sr=df_sr,df_cr=df_cr)
+		print('plotting in R...\n')
 		os.system('Rscript {}/visualize_main_region.R {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format ))
 		# check_call(['Rscript', '{}/visualize_main_region.R'.format(UserInput_script_path), '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
 		# check_call(['Rscript', 'visualize_main_region.R', '{}'.format(pjoin(os.getcwd(),'internal_data')), '{}'.format(pjoin(os.getcwd(),'visualizations')) ], stdout=STDOUT, stderr=STDOUT) #DEVNULL
@@ -242,6 +273,7 @@ def MakeVisualizations(
 	## group visualization
 	if UserInput_visualization_type == 'group':
 		get_UniqueClustersWithinCluster(df_cr=df_cr, df_sr=df_sr, cluster_label_id=UserInput_cluster_label_id)
+		print('plotting in R...\n')
 		os.system('Rscript {}/visualize_group.R {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format ))
 		return
 
@@ -250,6 +282,7 @@ def MakeVisualizations(
 		print('Making a phylogenetic tree from representative seed sequences')
 		retrieve_RepresentativeSeeds(tip_label_type=UserInput_tip_label_type, df_cr=df_cr)
 		create_RepresentativeSeedTree()
+		print('plotting in R...\n')
 		os.system('Rscript {}/visualize_tree.R {} {} {} {}'.format(UserInput_script_path, pjoin(os.getcwd(),'internal_data'), pjoin(os.getcwd(),'visualizations'), UserInput_image_format,  UserInput_tip_label_size))
 		return
 

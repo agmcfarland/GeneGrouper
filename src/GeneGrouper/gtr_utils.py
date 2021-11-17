@@ -24,7 +24,7 @@ def make_OutputDirectory(new_directory):
 		print('Making {} directory'.format(new_directory))
 		os.mkdir(new_directory)
 	else:
-		print('Making {} already exists.'.format(new_directory))
+		print('{} directory already exists.'.format(new_directory))
 
 def merge_ManyFiles(input_filepath,output_filepath,wildcard_search,output_filename):
 	'''

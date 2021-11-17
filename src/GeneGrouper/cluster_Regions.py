@@ -7,6 +7,7 @@ from Bio import SeqIO, SeqFeature
 from Bio.SeqRecord import SeqRecord
 import pandas as pd
 pd.options.mode.chained_assignment = None
+import math
 import numpy as np
 import warnings
 import time
@@ -33,7 +34,7 @@ def cluster_DBSCAN(jac_dist, table_output_suffix, min_group_size):
 	# cluster and extract cluster label assignments
 
 	if min_group_size == 'default':
-		min_group_size = np.log(len(jac_dist))
+		min_group_size = math.floor(np.log(len(jac_dist)))
 	else:
 		min_group_size = int(min_group_size)
 

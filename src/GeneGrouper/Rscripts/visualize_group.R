@@ -9,6 +9,8 @@ library(dplyr)
 library(gggenes)
 library(groupdata2)
 
+options(warn=-1)
+
 print('reshape version')
 packageVersion("reshape")
 print('ggplot2 version')
@@ -157,7 +159,7 @@ for (ch in unique(df_chunk_order$chunk_group)){
       limits = rev)
   
   
-  # relative dissimilarity of region sub clusters
+  # relative dissimilarity of region sub groups
   p3_cwc_ggdc <- ggplot(df_cwc_ggdc%>%filter(cwc_id%in%label_keep)
                         ,aes(x=representative_relative_dissimilarity,y=cwc_id_dummy))+
     geom_bar(stat='identity',position='dodge')+
@@ -175,12 +177,12 @@ for (ch in unique(df_chunk_order$chunk_group)){
           strip.text.x = element_blank())+
     scale_x_continuous(limits=c(0,1.05))+
     ylab(label='CwC label')+
-    xlab(label='Relative dissimilarity to sub cluster 0')
+    xlab(label='Relative dissimilarity to subgroup 0')
   
   p1mgg <- plot_grid(p2_cwc_ggdc,p1_cwc_ggregions,p3_cwc_ggdc,align='hv',nrow=1,rel_widths = c(1/4,1/2,1/4))
   
 
-  save_plot(paste(visualizations_dir,'/inspect_group_',dbscan_label_inspected,'_',ch,'.',image_format,sep=''),p1mgg,base_height=8,base_aspect_ratio = 2)
+  save_plot(paste(visualizations_dir,'/inspect_group_g',dbscan_label_inspected,'_',ch,'.',image_format,sep=''),p1mgg,base_height=8,base_aspect_ratio = 2)
   
   }
 

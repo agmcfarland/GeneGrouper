@@ -268,6 +268,10 @@ def BuildQueryFiles(
 		df_regions = pd.concat(p.starmap(extract_SeedRegions, r_params[:]))
 	print((time.time()-start_t)/60)
 	print('mem usage:', df_regions.memory_usage(deep=True).sum()/1028/1028)
+
+	if len(df_regions) == 0:
+		raise ValueError('No genes matched your query!')
+		
 	df_regions.to_sql(name='seed_regions',con=conn2, if_exists='replace',index_label='locus_tag',index=False)
 
 
