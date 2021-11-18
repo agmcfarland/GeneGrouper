@@ -6,9 +6,11 @@
 
 <img src="docs/overview_figure.png" alt="GeneGrouper overview figure" width=1000>
 
-[See detailed explanation of overview figure](https://github.com/agmcfarland/GeneGrouper/wiki#why-use-genegrouper)
+[Why use GeneGrouper?](https://github.com/agmcfarland/GeneGrouper/wiki#what-is-genegrouper)
 
-[See an example application of GeneGrouper](https://github.com/agmcfarland/GeneGrouper/wiki#example-application)
+[See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
+
+[See GeneGrouper outpus](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
 [See FAQs](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions)
 
