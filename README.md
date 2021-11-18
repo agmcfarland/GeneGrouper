@@ -112,25 +112,25 @@ visualize \
 
 # Outputs
 
-For each search, ```find_regions``` outputs:
+ 1. **For each search ```find_regions``` outputs:**
 
-**Four** tabular files with quantitative and qualitative descriptions of grouping results. 
+* **Four** tabular files with quantitative and qualitative descriptions of grouping results. 
 
-**One** fasta file containing all genes used in the analysis.
+* **One** fasta file containing all genes used in the analysis.
 
-For each search, ```visualize --visual_type main```` outputs:
+2. **For each search,  ```visualize --visual_type main``` outputs:**
 
-**Three** main visualizations provided.
+* **Three** main visualizations provided.
 
-For each search, ```visualize --visual_type group```` outputs:
+3. **For each search, ```visualize --visual_type group \--group_label <n>``` outputs:**
 
-**One** additional visualization per group provided the ```visualize --visual_type group \--group_label <n>``` is supplied, where ```<n>``` is the name of the group label.  
+* **One** additional visualization per group, where ```--group_label <n>``` has `<n>` replaced with the group number.  
 
-**Two** tabular files containing subgroup information for each ```--group_label <n>``` supplied.
+* **Two** tabular files containing subgroup information for each ```--group_label <n>``` supplied.
 
-For each search, ```visualize --visual_type tree```` outputs:
+4. **For each search, ```visualize --visual_type tree```` outputs:**
 
-**One** phylogenetic tree composed of each seed gene from each group.
+* **One** phylogenetic tree of each seed gene in each group.
 
 [See complete output file descriptions](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
