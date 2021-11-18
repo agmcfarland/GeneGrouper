@@ -241,6 +241,7 @@ def BuildQueryFiles(
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'regions'))
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'ortholog_clusters'))
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'internal_data'))
+	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'subgroups'))
 	make_OutputDirectory(new_directory=pjoin(UserInput_output_dir_name,'visualizations'))
 	make_OutputDirectory(new_directory='temp_blast_results')
 
