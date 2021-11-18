@@ -1,5 +1,5 @@
 
-[**GeneGrouper**](https://github.com/agmcfarland/GeneGrouper) is a command-line tool that searches a set of genomes for gene clusters containing a gene of interest. All gene clusters are then binned into groups according to their similarity in gene content. Qualitative and quantitative outputs provide a population-level view of how gene cluster groups are distributed and how varied gene content is within a group.
+[**GeneGrouper**](https://github.com/agmcfarland/GeneGrouper) is a command-line tool that places gene clusters into groups according to how conserved their gene content is. Instead of providing all genes in a gene cluster, you only provide the sequence of one gene and the upstream and downstream coordinates that encompass at least the entire gene cluster. Several visualizations and detailed data tables are provided for further investigation.
 
 
 ---
@@ -18,7 +18,9 @@ GeneGrouper can be installed using pip
 
 ```pip install GeneGrouper```
 
-[GeneGrouper has multiple dependences.]((https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)) Follow this simple guide to create a self-contained conda environment for GeneGrouper.
+[GeneGrouper has multiple dependences.]((https://github.com/agmcfarland/GeneGrouper/wiki/Installation-and-dependencies#requirements-and-dependencies)) 
+
+Follow the code below to create a self-contained conda environment for GeneGrouper. **Recommended**
 
 **Installing Python and bioinformatic dependencies for grouping**
 
@@ -76,27 +78,27 @@ build_database
 
 #### Use `find_regions` to search for regions containing a gene of interest and output to a search-specific directory
 ```
-GeneGrouper -d /path/to/main_directory -n search_results \
+GeneGrouper -d /path/to/main_directory -n gene_search \
 find_regions \
 -f /path/to/query_gene.fasta
 ```
 #### Use `visualize --visual_type main` to output visualizations of group gene architectures and their distribution within genomes and taxa
 ```
-GeneGrouper -d /path/to/main_directory -n search_results \
+GeneGrouper -d /path/to/main_directory -n gene_search \
 visualize \
 --visual_type main
 ```
 
-#### Use `visualize --visual_type group` to inspect a GeneGrouper group more closely 
+#### Use `visualize --visual_type group` to inspect a GeneGrouper group more closely. Replace <> with a group ID number.
 ```
-GeneGrouper -d /path/to/main_directory -n search_results \
+GeneGrouper -d /path/to/main_directory -n gene_search \
 visualize \
---visual_type group
+--visual_type group <>
 ```
 
 #### Use `visualize --visual_type tree` to make a phylogenetic tree of each group's seed gene
 ```
-GeneGrouper -d /path/to/main_directory -n search_results \
+GeneGrouper -d /path/to/main_directory -n gene_search \
 visualize \
 --visual_type tree
 ```
@@ -108,19 +110,25 @@ visualize \
 
 # Outputs
 
-Each search with ```find_regions``` outputs:
+For each search, ```find_regions``` outputs:
 
 **Four** tabular files with quantitative and qualitative descriptions of grouping results. 
 
 **One** fasta file containing all genes used in the analysis.
 
-```visualize``` outputs:
+For each search, ```visualize --visual_type main```` outputs:
 
-**Three** main visualizations provided if the ```visualize --visual_type main``` command is used. 
+**Three** main visualizations provided.
 
-**One** additional visualization per group provided the ```visualize --visual_type group group_label <n>``` is supplied, where ```<n>``` is the name of the group label.  
+For each search, ```visualize --visual_type group```` outputs:
 
-**One** phylogenetic tree using the seed gene from each group's representative using ```visualize --visual_type tree```
+**One** additional visualization per group provided the ```visualize --visual_type group \--group_label <n>``` is supplied, where ```<n>``` is the name of the group label.  
+
+**Two** tabular files containing subgroup information for each ```--group_label <n>``` supplied.
+
+For each search, ```visualize --visual_type tree```` outputs:
+
+**One** phylogenetic tree composed of each seed gene from each group.
 
 [See complete output file descriptions](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
@@ -141,6 +149,7 @@ Each search and visualization will have the following file structure. Files unde
 │   │   │   ├── inspect_group_-1.png
 │   │   │   ├── representative_seed_phylogeny.png
 │   │   ├── internal_data
+│   │   ├── subgroups
 │   │   ├── seed_results.db
 ```
 
