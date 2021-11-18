@@ -9,6 +9,8 @@
 
 [See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
 
+[See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
+
 [See GeneGrouper outputs](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
 [See FAQs](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions)
@@ -127,7 +129,7 @@ visualize \
 
 * **Two** tabular files containing subgroup information for each ```--group_label <n>``` supplied.
 
-4. **For each search, ```visualize --visual_type tree```` outputs:**
+4. **For each search, ```visualize --visual_type tree``` outputs:**
 
 * **One** phylogenetic tree of each seed gene in each group.
 
@@ -185,7 +187,9 @@ usage: GeneGrouper [-h] [-d] [-n] [-g] [-t]
 ```
 
 ### Subcommand flags
+
 ```build_database```
+
 ```
 usage: GeneGrouper build_database [-h]
 
