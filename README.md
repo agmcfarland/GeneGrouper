@@ -9,8 +9,6 @@
 
 [See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
 
-[See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
-
 [See GeneGrouper outputs](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
 [See FAQs](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions)
