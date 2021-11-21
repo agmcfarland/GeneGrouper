@@ -94,7 +94,8 @@ visualize \
 ```
 GeneGrouper -d /path/to/main_directory -n gene_search \
 visualize \
---visual_type group <>
+--visual_type group \
+--group_label <>
 ```
 
 #### Use `visualize --visual_type tree` to make a phylogenetic tree of each group's seed gene
