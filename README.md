@@ -79,7 +79,7 @@ build_database
 
 #### Use `find_regions` to search for regions containing a gene of interest and output to a search-specific directory
 ```
-GeneGrouper -d /path/to/main_directory -n gene_search \
+GeneGrouper -g /path/to/gbff -d /path/to/main_directory -n gene_search \
 find_regions \
 -f /path/to/query_gene.fasta
 ```
