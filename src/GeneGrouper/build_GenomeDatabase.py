@@ -22,15 +22,23 @@ from subprocess import DEVNULL, STDOUT, check_call
 
 def extract_GenbankMetadata(input_filename, gbff_raw_dir):
 	'''
+	Extracts the organism name from the genbank file organism annotation. 
+	If there is only a one line name under the organism then 'Undefined' gets added after the name as a filler for species.
 	'''
 	assembly_id = generate_AssemblyId(input_gbff_file=input_filename)
 	for x, record in enumerate(SeqIO.parse(pjoin(gbff_raw_dir,input_filename),'gb')):
 		if x == 0:
 			df_tax = pd.DataFrame({'assembly_id':[assembly_id], 'filename':[input_filename]})
 			try:
-				df_tax['organism'] = record.annotations['organism']
+				df_tax['organism'] = record.annotations['organism'] + ' Undefined'
+				# checking name 
+				# organism_name = record.annotations['organism']
+				# name_list = organism_name.split(' ')
+				# if len(count_whitespace) == 1:
+				# 	organism_name = organism_name + ' ' + 'Undefined'
+				#  df_tax['organism'] = organism_name
 			except:
-				df_tax['organism'] = 'NA'
+				df_tax['organism'] = 'UndefinedGenus UndefinedSpecies'
 		break	
 	return(df_tax)
 

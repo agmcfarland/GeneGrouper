@@ -38,6 +38,10 @@ def cluster_DBSCAN(jac_dist, table_output_suffix, min_group_size):
 	else:
 		min_group_size = int(min_group_size)
 
+	if min_group_size < 2:
+		print('Minimum group size is < 2 -- will change minimum group size to 2')
+		min_group_size = 2
+
 	print('Using a minimum group size of {}'.format(min_group_size))
 
 	cluster_label_assignments = {}
