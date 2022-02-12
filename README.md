@@ -9,8 +9,6 @@
 
 [See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
 
-[See GeneGrouper tutorial](https://github.com/agmcfarland/GeneGrouper/wiki/GeneGrouper-tutorial-with-data)
-
 [See GeneGrouper outputs](https://github.com/agmcfarland/GeneGrouper/wiki/Output-file-descriptions)
 
 [See FAQs](https://github.com/agmcfarland/GeneGrouper/wiki/Frequently-Asked-Questions)
@@ -81,7 +79,7 @@ build_database
 
 #### Use `find_regions` to search for regions containing a gene of interest and output to a search-specific directory
 ```
-GeneGrouper -d /path/to/main_directory -n gene_search \
+GeneGrouper -g /path/to/gbff -d /path/to/main_directory -n gene_search \
 find_regions \
 -f /path/to/query_gene.fasta
 ```
@@ -96,7 +94,8 @@ visualize \
 ```
 GeneGrouper -d /path/to/main_directory -n gene_search \
 visualize \
---visual_type group <>
+--visual_type group \
+--group_label <>
 ```
 
 #### Use `visualize --visual_type tree` to make a phylogenetic tree of each group's seed gene
