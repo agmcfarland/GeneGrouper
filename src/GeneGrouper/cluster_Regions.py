@@ -138,7 +138,7 @@ def determine_ClusterRepresentative(df_cr,df_c):
 		mean_dissimilarity_array = np.column_stack((mean_dissimilarity_array,lowest_relative_dis))
 		# add to master pandas dataframe. label representative uses number from full_index_pos
 		colnames = ['dbscan_label','label_representative','full_index_pos','relative_index_pos','mean_dissimilarity','representative_relative_dissimilarity']
-		df_clusterep = df_clusterep.append(pd.DataFrame(mean_dissimilarity_array,columns=colnames))
+		df_clusterep = pd.concat([df_clusterep, pd.DataFrame(mean_dissimilarity_array,columns=colnames)]) # change append to concat
 
 
 	# add seed_region_id to the df_clusterep dataframe. save output
