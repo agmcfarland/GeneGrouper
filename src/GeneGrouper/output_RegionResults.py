@@ -198,10 +198,10 @@ def OutputRegionResults(
 	min_result_vals = df_t1.groupby(['dbscan_label','variable']).min().reset_index().drop(columns='region_id')
 	min_result_vals['variable'] = 'min_'+min_result_vals['variable']
 	min_result_vals = min_result_vals.pivot_table(index='dbscan_label',columns='variable',values='value').reset_index()
-	mean_result_vals = df_t1.groupby(['dbscan_label','variable']).mean().reset_index()
+	mean_result_vals = df_t1.drop(columns='region_id').groupby(['dbscan_label','variable']).mean().reset_index()
 	mean_result_vals['variable'] = 'mean_'+mean_result_vals['variable']
 	mean_result_vals = mean_result_vals.pivot_table(index='dbscan_label',columns='variable',values='value').reset_index()
-	sd_result_vals = df_t1.groupby(['dbscan_label','variable']).std().reset_index()
+	sd_result_vals = df_t1.drop(columns='region_id').groupby(['dbscan_label','variable']).std().reset_index()
 	sd_result_vals['variable'] = 'sd_'+sd_result_vals['variable']
 	sd_result_vals = sd_result_vals.pivot_table(index='dbscan_label',columns='variable',values='value').reset_index()
 	group_counts = pd.read_csv(pjoin('internal_data','full_region.csv'))[['dbscan_label','region_id']].drop_duplicates().groupby('dbscan_label').count().rename(columns={'region_id':'member_counts'}).reset_index()
