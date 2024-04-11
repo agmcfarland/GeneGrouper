@@ -130,7 +130,7 @@ def extract_SeedRegions(assembly_id, upstream_search_length, downstream_search_l
 				df_hits_contig = df_hits_contig[ (df_hits_contig['overlap']==False) | (df_hits_contig['overlap_representative'] == True) | (df_hits_contig['overlap']).isnull() == True ]
 			except:
 				continue
-		df_hits_parsed = df_hits_parsed.append(df_hits_contig)
+		df_hits_parsed = pd.concat([df_hits_parsed, df_hits_contig]) # append from pandas was depreciated, change to concat
 
 
 
@@ -169,7 +169,7 @@ def extract_SeedRegions(assembly_id, upstream_search_length, downstream_search_l
 
 		# append the subsetted dataframe to a new dataframe that will contain all region extractions
 		df_r['region_id'] = h[1][0]
-		df_rkeep = df_rkeep.append(df_r,ignore_index=True)
+		df_rkeep = pd.concat([df_rkeep, df_r], ignore_index=True) # append from pandas was depreciated, change to concat
 
 	## add blast data to the extracted regions, remove unneeded columns, and return the dataframe
 	df_rkeep['assembly_id'] = assembly_id
