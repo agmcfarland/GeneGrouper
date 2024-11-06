@@ -243,4 +243,4 @@ Alexander G McFarland, Nolan W Kennedy, Carolyn E Mills, Danielle Tullman-Ercek,
 
 Please message me at alexandermcfarland2022@u.northwestern.edu if you have any questions or comments!
 
-Follow me on twitter [@alexmcfarland_](https://twitter.com/alexmcfarland_)! 
+Follow me on LinkedIn [@alexmcfarland_](https://www.linkedin.com/in/alexandergmcfarland/)! 
